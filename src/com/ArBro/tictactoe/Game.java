@@ -4,15 +4,14 @@ package com.ArBro.tictactoe;
  * Created by ABrouwer on 24-5-2017.
  */
 
-// TODO: Bugfixing: Aan het einde van een game gaat de overgang niet goed. Checken waarom...
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
 
     private Scanner gameScanner = new Scanner(System.in);
-    private Player Player1 = new Player(1, Token.X);
-    private Player Player2 = new Player(2, Token.O);
+    private Player Player1 = new HumanPlayer(1, Token.X);
+    private Player Player2 = new HumanPlayer(2, Token.O);
     private Player curPlayer;
     private Board board;
 
@@ -77,61 +76,29 @@ public class Game {
         //Get next move
         System.out.print(curPlayer.getPlayerName() + " please enter a value from 1 - 9 for an empty field: ");
         String nextMoveInput = gameScanner.next();
-        int nextMove = -1;
+        int nextMove;
 
         try {
             nextMove = Integer.parseInt(nextMoveInput);
         } catch(NumberFormatException e) {
             System.out.print("Your input is not valid. ");
             this.playMoves();
+            return;
         }
 
         if (nextMove <= 0 || nextMove > 9) {
             System.out.print("Your input is not valid. ");
             this.playMoves();
+            return;
         }
 
         if (board.getIsFilledField(nextMove)){
             System.out.print("You have not entered an empty field. ");
             this.playMoves();
+            return;
         }
 
-        switch(nextMove){
-            case 1:
-                board.board[0][0] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 2:
-                board.board[0][1] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 3:
-                board.board[0][2] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 4:
-                board.board[1][0] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 5:
-                board.board[1][1] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 6:
-                board.board[1][2] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 7:
-                board.board[2][0] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 8:
-                board.board[2][1] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            case 9:
-                board.board[2][2] = "[" + curPlayer.getPlayToken() + "]";
-                break;
-            default:
-                System.out.print("You have not entered a valid number. ");
-                this.playMoves();
-                break;
-        }
-
-        board.setIsFilledField(nextMove);
-        board.setEmptyFieldsLeft();
+        board.fillBoard(nextMove, curPlayer.getPlayToken());
         board.displayBoard();
 
         if (!board.getEmptyFieldsLeft() || board.hasWinner()){
@@ -139,6 +106,7 @@ public class Game {
         } else {
             this.switchCurPlayer();
             this.playMoves();
+            return;
         }
     }
 
