@@ -38,7 +38,7 @@ public class Game {
             userInput = gameScanner.next();
         } while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N"));
 
-        if (userInput.equals("Y")){
+        if (userInput.equalsIgnoreCase("Y")){
             System.out.println("A new game will start. Good luck!");
             this.startNewGame();
         } else {
