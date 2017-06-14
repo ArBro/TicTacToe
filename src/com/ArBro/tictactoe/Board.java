@@ -62,6 +62,43 @@ public class Board {
         }
     }
 
+    void fillBoard(int move, Token t){
+        switch(move){
+            case 1:
+                this.board[0][0] = "[" + t + "]";
+                break;
+            case 2:
+                this.board[0][1] = "[" + t + "]";
+                break;
+            case 3:
+                this.board[0][2] = "[" + t + "]";
+                break;
+            case 4:
+                this.board[1][0] = "[" + t + "]";
+                break;
+            case 5:
+                this.board[1][1] = "[" + t + "]";
+                break;
+            case 6:
+                this.board[1][2] = "[" + t + "]";
+                break;
+            case 7:
+                this.board[2][0] = "[" + t + "]";
+                break;
+            case 8:
+                this.board[2][1] = "[" + t + "]";
+                break;
+            case 9:
+                this.board[2][2] = "[" + t + "]";
+                break;
+            default:
+                break;
+        }
+
+        this.setIsFilledField(move);
+        this.setEmptyFieldsLeft();
+    }
+    
     boolean hasWinner() {
         //Possible wins
         // (0,0),(0,1),(0,2)
