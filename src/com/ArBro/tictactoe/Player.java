@@ -1,48 +1,64 @@
 package com.ArBro.tictactoe;
 
 /**
- * Created by ABrouwer on 24-5-2017.
+ * Created by ArBro on 24-5-2017.
  */
 
-public class Player {
+public abstract class Player {
 
-    private int playerId;
-    Token playToken;
-    boolean isFirstToMove;
+    int playerId;
     String playerName;
+    Token playToken;
 
     //Constructors
-    Player(int id, Token x){
-        setPlayerId(id);
-        setPlayToken(x);
+    Player(int id, String name){
+        this.setPlayerId(id);
+        this.setPlayerName(name);
     }
 
-    //Getters
-    int getPlayerId(){
-        return this.playerId;
+    //Getters & Setters
+
+    public int getPlayerId() {
+        return playerId;
     }
-    Token getPlayToken(){
-        return this.playToken;
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
-    public boolean getIsFirstToMove(){
-        return this.isFirstToMove;
-    }
-    String getPlayerName() {
+
+    public String getPlayerName() {
         return playerName;
     }
 
-    //Setters
-    public void setPlayerId(int id){
-        this.playerId = id;
-    }
-    public void setPlayToken(Token x){
-        this.playToken = x;
-    }
-    public void setIsFirstToMove(boolean x){
-        this.isFirstToMove = x;
-    }
-    void setPlayerName(String playerName) {
+    public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+
+    public Token getPlayToken() {
+        return playToken;
+    }
+
+    public void setPlayToken(Token playToken) {
+        this.playToken = playToken;
+    }
+
+    //Equals and Hashcode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return playerName != null ? playerName.equals(player.playerName) : player.playerName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return playerName != null ? playerName.hashCode() : 0;
+    }
+
+    //Methods
+    public abstract int playMove();
 
 }

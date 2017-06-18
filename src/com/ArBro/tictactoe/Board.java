@@ -1,7 +1,7 @@
 package com.ArBro.tictactoe;
 
 /**
- * Created by ABrouwer on 24-5-2017.
+ * Created by ArBro on 24-5-2017.
  */
 
 
@@ -10,7 +10,6 @@ public class Board {
     String board[][] = new String[boardSize][boardSize];
     private boolean[] isFilledField = new boolean[9];
     private boolean emptyFieldsLeft = true;
-    String winningToken;
 
     //Constructors
     Board(){
@@ -97,54 +96,6 @@ public class Board {
 
         this.setIsFilledField(move);
         this.setEmptyFieldsLeft();
-    }
-    
-    boolean hasWinner() {
-        //Possible wins
-        // (0,0),(0,1),(0,2)
-        // (1,0),(1,1),(1,2)
-        // (2,0),(2,1),(2,2)
-        // (0,0),(1,0),(2,0)
-        // (0,1),(1,1),(2,1)
-        // (0,2),(1,2),(2,2)
-        // (0,0),(1,1),(2,2)
-        // (0,2),(1,1),(2,0)
-
-        if (this.board[0][0].equals(this.board[0][1]) && this.board[0][1].equals(this.board[0][2]) &&
-                !this.board[0][0].equals("[ ]")) {
-            this.winningToken = this.board[0][0].substring(1, 2);
-            return true;
-        } else if (this.board[1][0].equals(this.board[1][1]) && this.board[1][1].equals(this.board[1][2]) &&
-                !this.board[1][0].equals("[ ]")) {
-            this.winningToken = this.board[1][0].substring(1, 2);
-            return true;
-        } else if (this.board[2][0].equals(this.board[2][1]) && this.board[2][1].equals(this.board[2][2]) &&
-                !this.board[2][0].equals("[ ]")) {
-            this.winningToken = this.board[2][0].substring(1, 2);
-            return true;
-        } else if (this.board[0][0].equals(this.board[1][0]) && this.board[1][0].equals(this.board[2][0]) &&
-                !this.board[0][0].equals("[ ]")) {
-            this.winningToken = this.board[0][0].substring(1, 2);
-            return true;
-        } else if (this.board[0][1].equals(this.board[1][1]) && this.board[1][1].equals(this.board[2][1]) &&
-                !this.board[0][1].equals("[ ]")) {
-            this.winningToken = this.board[0][1].substring(1, 2);
-            return true;
-        } else if (this.board[0][2].equals(this.board[1][2]) && this.board[1][2].equals(this.board[2][2]) &&
-                !this.board[0][2].equals("[ ]")) {
-            this.winningToken = this.board[0][2].substring(1, 2);
-            return true;
-        } else if (this.board[0][0].equals(this.board[1][1]) && this.board[1][1].equals(this.board[2][2]) &&
-                !this.board[0][0].equals("[ ]")) {
-            this.winningToken = this.board[0][0].substring(1, 2);
-            return true;
-        } else if (this.board[0][2].equals(this.board[1][1]) && this.board[1][1].equals(this.board[2][0]) &&
-                !this.board[0][2].equals("[ ]")) {
-            this.winningToken = this.board[0][2].substring(1, 2);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
