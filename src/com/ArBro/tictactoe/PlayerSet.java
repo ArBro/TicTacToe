@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
  */
 public class PlayerSet<P> extends LinkedHashSet<P> {
 
+    //This method probably won't work for large player sets
     public Player getPlayerById(int id) {
         Iterator playerIterator = this.iterator();
         Player p;
