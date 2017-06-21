@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class Game {
 
-    private PlayerSet<Player> players = new PlayerSet<>();
-    private Set<Token> tokenSet = EnumSet.of(Token.O, Token.X);
+    private PlayerSet players = new PlayerSet();
+    private Set<Token> tokenSet = EnumSet.allOf(Token.class);
     private Scanner scanner = new Scanner(System.in);
     private Board board;
 
@@ -66,6 +66,7 @@ public class Game {
 
         //Determine First Player
         Random playerChooser = new Random();
+        //TODO: What to do if players have all kind of ids?
         Player curPlayer = players.getPlayerById(playerChooser.nextInt(2));
         System.out.println("I randomly picked a player to start first. " + curPlayer.playerName + " it's your lucky day!");
 
@@ -94,6 +95,7 @@ public class Game {
 
         if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.board)){
             if (winCtrl.hasWinner(board.board)) {
+                //TODO: What to do if players have all kind of ids?
                 Player winner = players.getPlayerById(winCtrl.winningToken.equals(players.getPlayerById(0).playToken.toString()) ? 0 : 1);
                 winCtrl.announceWinner(winner);
             } else {
@@ -109,6 +111,7 @@ public class Game {
     }
 
     private Player switchCurPlayer(Player curPlayer){
+        //TODO: What to do if players have all kind of ids?
         return players.getPlayerById(curPlayer.equals(players.getPlayerById(0)) ? 1 : 0);
     }
 

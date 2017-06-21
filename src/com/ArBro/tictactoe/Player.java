@@ -61,4 +61,15 @@ public abstract class Player {
     //Methods
     public abstract int playMove();
 
+    /*
+    savemethod(id, name, winningstreaks)
+    1
+    Arco
+     4 7 5 3 2 6 8
+     */
+
+    /*
+    loadmethod()
+     */
+
 }

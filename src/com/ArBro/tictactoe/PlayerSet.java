@@ -6,18 +6,21 @@ import java.util.LinkedHashSet;
 /**
  * Created by ArBro on 18-6-2017.
  */
-public class PlayerSet<P> extends LinkedHashSet<P> {
+public class PlayerSet extends LinkedHashSet<Player> {
 
-    //This method probably won't work for large player sets
+    //This method probably won't work for very large or very many player sets
     public Player getPlayerById(int id) {
-        Iterator playerIterator = this.iterator();
-        Player p;
+        Iterator<Player> playerIterator = this.iterator();
 
-        do {
-            p = (Player) playerIterator.next();
-        } while (playerIterator.hasNext() && p.getPlayerId() != id);
+        while(playerIterator.hasNext()){
+            Player p = playerIterator.next();
+            if (p.getPlayerId() == id){
+                return p;
+            }
+        }
 
-        return p;
+        throw new RuntimeException("PlayerId not found.");
+
     }
 
 }
