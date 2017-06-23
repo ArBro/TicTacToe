@@ -1,4 +1,6 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.controller;
+
+import nl.arbro.tictactoe.model.Player;
 
 /**
  * Created by ArBro on 18-6-2017.

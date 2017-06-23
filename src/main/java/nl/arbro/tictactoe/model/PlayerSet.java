@@ -1,4 +1,4 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.model;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;

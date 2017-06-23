@@ -1,4 +1,4 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.model;
 
 /**
  * Created by ArBro on 24-5-2017.
@@ -7,8 +7,8 @@ package com.ArBro.tictactoe;
 public abstract class Player {
 
     int playerId;
-    String playerName;
-    Token playToken;
+    public String playerName;
+    public Token playToken;
 
     //Constructors
     Player(int id, String name){

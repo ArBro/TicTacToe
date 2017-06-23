@@ -1,4 +1,4 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.controller;
 
 /**
  * Created by ArBro on 18-6-2017.

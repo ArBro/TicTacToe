@@ -1,4 +1,4 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.model;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class HumanPlayer extends Player {
 
-    HumanPlayer(int id, String name, Token t) {
+    public HumanPlayer(int id, String name, Token t) {
         super(id, name);
         this.setPlayToken(t);
     }

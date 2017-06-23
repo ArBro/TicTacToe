@@ -1,4 +1,4 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.model;
 
 /**
  * Created by ArBro on 24-5-2017.
@@ -7,12 +7,12 @@ package com.ArBro.tictactoe;
 
 public class Board {
     private int boardSize = 3;
-    String board[][] = new String[boardSize][boardSize];
+    public String[][] board = new String[boardSize][boardSize];
     private boolean[] isFilledField = new boolean[9];
     private boolean emptyFieldsLeft = true;
 
     //Constructors
-    Board(){
+    public Board(){
         for (String[] row : this.board){
             for (int i = 0; i < row.length; i++) {
                 row[i] = "[ ]";
@@ -21,11 +21,11 @@ public class Board {
     }
 
     //Getters & Setters
-    boolean getIsFilledField(int fieldId){
+    public boolean getIsFilledField(int fieldId){
         return this.isFilledField[fieldId - 1];
     }
 
-    boolean getEmptyFieldsLeft() {
+    public boolean getEmptyFieldsLeft() {
         return emptyFieldsLeft;
     }
 
@@ -52,7 +52,7 @@ public class Board {
         }
     }
 
-    void displayBoard(){
+    public void displayBoard(){
         for (String[] row : board){
             for (String col : row ){
                 System.out.print(col);
@@ -61,7 +61,7 @@ public class Board {
         }
     }
 
-    void fillBoard(int move, Token t){
+    public void fillBoard(int move, Token t){
         switch(move){
             case 1:
                 this.board[0][0] = "[" + t + "]";

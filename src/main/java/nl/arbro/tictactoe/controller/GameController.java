@@ -1,9 +1,11 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.controller;
 
 /**
  * Created by ArBro on 24-5-2017.
  */
 
+
+import nl.arbro.tictactoe.model.*;
 
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -11,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Game {
+public class GameController {
 
     private PlayerSet players = new PlayerSet();
     private Set<Token> tokenSet = EnumSet.allOf(Token.class);

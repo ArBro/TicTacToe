@@ -1,10 +1,10 @@
-package com.ArBro.tictactoe;
+package nl.arbro.tictactoe.model;
 
 /**
  * Created by ArBro on 24-5-2017.
  */
 
-enum Token {
+public enum Token {
     O,
     X
 }
