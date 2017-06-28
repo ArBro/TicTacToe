@@ -7,7 +7,7 @@ package nl.arbro.tictactoe.model;
 
 public class Board {
     private int boardSize = 3;
-    public String[][] board = new String[boardSize][boardSize];
+    private String[][] board = new String[boardSize][boardSize];
     private boolean[] isFilledField = new boolean[9];
     private boolean emptyFieldsLeft = true;
 
@@ -21,6 +21,10 @@ public class Board {
     }
 
     //Getters & Setters
+    public String[][] getBoard() {
+        return this.board;
+    }
+
     public boolean getIsFilledField(int fieldId){
         return this.isFilledField[fieldId - 1];
     }
@@ -29,11 +33,11 @@ public class Board {
         return emptyFieldsLeft;
     }
 
-    void setIsFilledField(int fieldId){
+    private void setIsFilledField(int fieldId){
         this.isFilledField[fieldId - 1] = true;
     }
 
-    void setEmptyFieldsLeft(){
+    private void setEmptyFieldsLeft(){
         int countEmptyFields = 0;
         for (boolean anIsFilledField : isFilledField) {
             if (!anIsFilledField) {

@@ -6,9 +6,9 @@ package nl.arbro.tictactoe.model;
 
 public abstract class Player {
 
-    int playerId;
-    public String playerName;
-    public Token playToken;
+    private int playerId;
+    private String playerName;
+    private Token playToken;
 
     //Constructors
     Player(int id, String name){
@@ -19,7 +19,7 @@ public abstract class Player {
     //Getters & Setters
 
     public int getPlayerId() {
-        return playerId;
+        return this.playerId;
     }
 
     public void setPlayerId(int playerId) {
@@ -27,7 +27,7 @@ public abstract class Player {
     }
 
     public String getPlayerName() {
-        return playerName;
+        return this.playerName;
     }
 
     public void setPlayerName(String playerName) {
@@ -35,7 +35,7 @@ public abstract class Player {
     }
 
     public Token getPlayToken() {
-        return playToken;
+        return this.playToken;
     }
 
     public void setPlayToken(Token playToken) {

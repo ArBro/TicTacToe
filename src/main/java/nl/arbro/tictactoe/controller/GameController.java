@@ -70,7 +70,7 @@ public class GameController {
         Random playerChooser = new Random();
         //TODO: What to do if players have all kind of ids?
         Player curPlayer = players.getPlayerById(playerChooser.nextInt(2));
-        System.out.println("I randomly picked a player to start first. " + curPlayer.playerName + " it's your lucky day!");
+        System.out.println("I randomly picked a player to start first. " + curPlayer.getPlayerName() + " it's your lucky day!");
 
         //NextMove
         board.displayBoard();
@@ -95,10 +95,10 @@ public class GameController {
 
         TicTacToeWinController winCtrl = new TicTacToeWinController();
 
-        if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.board)){
-            if (winCtrl.hasWinner(board.board)) {
+        if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())){
+            if (winCtrl.hasWinner(board.getBoard())) {
                 //TODO: What to do if players have all kind of ids?
-                Player winner = players.getPlayerById(winCtrl.winningToken.equals(players.getPlayerById(0).playToken.toString()) ? 0 : 1);
+                Player winner = players.getPlayerById(winCtrl.winningToken.equals(players.getPlayerById(0).getPlayToken().toString()) ? 0 : 1);
                 winCtrl.announceWinner(winner);
             } else {
                 winCtrl.announceDraw();
