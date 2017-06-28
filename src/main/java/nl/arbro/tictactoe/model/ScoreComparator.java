@@ -17,7 +17,6 @@ public class ScoreComparator {
             }
         }
     };
-
     public static final Comparator<Score> BY_NAME = new Comparator<Score>() {
         @Override
         public int compare(final Score s1, final Score s2) {

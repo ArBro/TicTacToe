@@ -1,8 +1,8 @@
 package nl.arbro.tictactoe.controller;
 
+import nl.arbro.tictactoe.model.ScoreComparator;
 import nl.arbro.tictactoe.model.ScoreList;
 import nl.arbro.tictactoe.model.Score;
-import nl.arbro.tictactoe.model.ScoreComparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
