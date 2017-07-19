@@ -13,12 +13,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+@Deprecated
 public class GameController {
 
-    private PlayerSet players = new PlayerSet();
+    //TODO: PlayerSet changed, so GameController wont work anymore.
     private Set<Token> tokenSet = EnumSet.allOf(Token.class);
     private Scanner scanner = new Scanner(System.in);
     private Board board;
+    private PlayerController playerController = new PlayerController();
 
     public void initGame(){
         System.out.println("Welcome to TicTacToe - A game full of surprises!");
@@ -27,22 +29,21 @@ public class GameController {
         //add 2 Players with their tokens
         Iterator<Token> it = tokenSet.iterator();
         for (int i = 0; i<2; i++){
-            addPlayer(i, it.next());
+            System.out.print("Player" + (i+1) + ", please enter your name: ");
+            String name = scanner.next();
+            Token token = it.next();
+            try {
+                while (!playerController.addPlayer(i, name, token)){
+                    System.out.println("You are trying to trick me! The player with that name already signed up!");
+                    System.out.print("Player" + (i+1) + ", please enter a new player name: ");
+                    name = scanner.next();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         this.askForNewGame();
-    }
-
-    public void addPlayer(int id, Token token){
-        System.out.print("Player" + (id+1) + " , please tell me your name: ");
-        String name = scanner.next();
-
-        while (!players.add(new HumanPlayer(id, name, token))){
-            System.out.println("You are trying to trick me! The player with that name already signed up!");
-            System.out.print("Player" + (id+1) + ", please enter a new player name: ");
-            name = scanner.next();
-        }
-        return;
     }
 
     private void askForNewGame() {
@@ -67,9 +68,9 @@ public class GameController {
         board = new Board();
 
         //Determine First Player
-        Random playerChooser = new Random();
+
         //TODO: What to do if players have all kind of ids?
-        Player curPlayer = players.getPlayerById(playerChooser.nextInt(2));
+        Player curPlayer = playerController.chooseFirstPlayer();
         System.out.println("I randomly picked a player to start first. " + curPlayer.getPlayerName() + " it's your lucky day!");
 
         //NextMove
@@ -98,7 +99,7 @@ public class GameController {
         if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())){
             if (winCtrl.hasWinner(board.getBoard())) {
                 //TODO: What to do if players have all kind of ids?
-                Player winner = players.getPlayerById(winCtrl.winningToken.equals(players.getPlayerById(0).getPlayToken().toString()) ? 0 : 1);
+                Player winner = playerController.getPlayers().getPlayerById(winCtrl.winningToken.equals(playerController.getPlayers().getPlayerById(0).getPlayToken().toString()) ? 0 : 1);
                 winCtrl.announceWinner(winner);
             } else {
                 winCtrl.announceDraw();
@@ -107,14 +108,9 @@ public class GameController {
             this.askForNewGame();
             return;
         } else {
-            this.playMoves(this.switchCurPlayer(curPlayer));
+            this.playMoves(playerController.switchCurPlayer(curPlayer));
             return;
         }
-    }
-
-    private Player switchCurPlayer(Player curPlayer){
-        //TODO: What to do if players have all kind of ids?
-        return players.getPlayerById(curPlayer.equals(players.getPlayerById(0)) ? 1 : 0);
     }
 
 }

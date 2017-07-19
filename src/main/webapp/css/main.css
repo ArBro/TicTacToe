@@ -1,0 +1,22 @@
+a {
+    text-decoration: none;
+}
+
+.error {
+    color: red;
+}
+
+table, tr, td {
+    border: 1px solid black;
+}
+
+tr {
+    width: 90px;
+}
+
+td {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+}

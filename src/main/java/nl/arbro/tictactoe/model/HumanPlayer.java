@@ -14,25 +14,28 @@ public class HumanPlayer extends Player {
     }
 
     //Methods
+    //TODO: Method will not work with gameController
+    //TODO: Update game controller to work with TicTacToeContoller
+
     @Override
     public int playMove(){
-        Scanner moveSc = new Scanner(System.in);
-        int nextMove;
+        Scanner nextMvScan = new Scanner(System.in);
+        int move;
 
         try {
-            String nextMoveInput = moveSc.next();
-            nextMove = Integer.parseInt(nextMoveInput);
+            String nextMoveInput = nextMvScan.next();
+            move = Integer.parseInt(nextMoveInput);
         } catch (NumberFormatException e) {
             System.out.print("Your input is not valid. ");
             return playMove();
         }
 
-        if (nextMove <= 0 || nextMove > 9) {
+        if (move <= 0 || move > 9) {
             System.out.print("Your input is not valid. ");
             return playMove();
         }
 
-        return nextMove;
+        return move;
     }
 
 }

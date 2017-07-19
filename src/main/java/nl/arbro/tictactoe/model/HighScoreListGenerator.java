@@ -1,8 +1,4 @@
-package nl.arbro.tictactoe.controller;
-
-import nl.arbro.tictactoe.model.ScoreComparator;
-import nl.arbro.tictactoe.model.ScoreList;
-import nl.arbro.tictactoe.model.Score;
+package nl.arbro.tictactoe.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,12 +8,12 @@ import java.util.Scanner;
 /**
  * Created by arbro on 28-6-17.
  */
-public class ScoreController {
+public class HighScoreListGenerator {
 
     public static ScoreList highScores = new ScoreList();
 
     private static final void GET_HIGHSCORES() {
-        File scoreFile = new File("src/resources/scores.txt");
+        File scoreFile = new File("src/data/scores.txt");
         try (Scanner sc = new Scanner(scoreFile)){
             while (sc.hasNextLine()){
                 String name = sc.next();
