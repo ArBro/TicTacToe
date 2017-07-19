@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -19,61 +20,69 @@ import java.util.Set;
  * Created by arbro on 10-7-17.
  */
 //TODO: Avoid Code break when navigating backwards without an existing game
+//TODO: Make sure that on different requests, multiple instances are created
 
 @SuppressWarnings("ALL")
 @WebServlet (name = "TicTacToeController", urlPatterns = {"/game"})
 public class TicTacToeController extends HttpServlet {
 
-    private PlayerController playerCtrl;
-    private TicTacToeWinController winCtrl = new TicTacToeWinController();
-    private PlayerSet players;
-    private Board board = new Board();
-    private Player curPlayer;
-    private Set<Token> tokenSet = EnumSet.allOf(Token.class);
-    private String errorMsg;
+    static final private Set<Token> tokenSet = EnumSet.allOf(Token.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+
         switch (action){
             case "Start":
+                HttpSession session = request.getSession();
+                Board board = new Board();
+                PlayerController playerCtrl = new PlayerController();
+
                 Iterator<Token> it = tokenSet.iterator();
                 try {
-                    playerCtrl = new PlayerController();
                     playerCtrl.addPlayerWeb(0, request.getParameter("player1"), it.next());
                     playerCtrl.addPlayerWeb(1, request.getParameter("player2"), it.next());
+                    session.setAttribute("playerCtrl", playerCtrl);
 
                 } catch (Exception e) {
-                    errorMsg = "Please fill in different player names";
-                    request.setAttribute("errorMsg", errorMsg);
+                    request.setAttribute("errorMsg", "Please fill in different player names");
                     request.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 }
 
-                players = playerCtrl.getPlayers();
-                curPlayer = playerCtrl.chooseFirstPlayer();
+                session.setAttribute("players", playerCtrl.getPlayers());
+                session.setAttribute("curPlayer", playerCtrl.chooseFirstPlayer());
                 board.emptyBoard();
-                forwardGameRequest(request, response);
+                session.setAttribute("board", board);
+                session.setAttribute("boardDisplay", board.getBoard());
+                session.setAttribute("errorMsg", new String());
+                request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
                 break;
 
             case "Play move":
                 //Capture and process moves
+                session = request.getSession();
                 String nextMoveInput = request.getParameter("input");
+                Player curPlayer = (Player) session.getAttribute("curPlayer");
+                playerCtrl = (PlayerController) session.getAttribute("playerCtrl");
                 int move;
-                errorMsg = new String();
+                session.setAttribute("errorMsg", new String());
                 try {
                     move = Integer.parseInt(nextMoveInput);
                     if (move <= 0 || move > 9) {
-                        errorMsg = "Your input is not in the range 1-9";
-                        forwardGameRequest(request, response);
+                        request.setAttribute("errorMsg", "Your input is not in the range 1-9");
+                        request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
                     }
 
+                    board = (Board) session.getAttribute("board");
                     if (board.getIsFilledField(move)){
-                        errorMsg = "Please fill in a non-empty field";
-                        forwardGameRequest(request, response);
+                        request.setAttribute("errorMsg", "Please fill in a non-empty field");
+                        request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
                     }
 
                     board.fillBoard(move, curPlayer.getPlayToken());
+                    session.setAttribute("board", board);
 
-                    //Check for a winner of a draw
+                    //Check for a winner or a draw
+                    TicTacToeWinController winCtrl = new TicTacToeWinController();
                     if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())) {
                         if (winCtrl.hasWinner(board.getBoard())) {
                             //TODO: What to do if players have all kind of ids?
@@ -82,14 +91,14 @@ public class TicTacToeController extends HttpServlet {
                             request.setAttribute("winner", "draw");
                         }
                         request.setAttribute("board", board.getBoard());
+                        session.setAttribute("boardDisplay", board.getBoard());
                         request.getServletContext().getRequestDispatcher("/WEB-INF/winner.jsp").forward(request, response);
                     }
-                    curPlayer = playerCtrl.switchCurPlayer(curPlayer);
-                    forwardGameRequest(request, response);
+                    session.setAttribute("curPlayer", playerCtrl.switchCurPlayer(curPlayer));
+                    request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
                 } catch (NumberFormatException e) {
-                    String errorMsg = "Your input is not a valid integer";
-                    forwardGameRequest(request, response);
-
+                    request.setAttribute("errorMsg", "Your input is not a valid integer");
+                    request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
                 }
                 break;
         }
@@ -100,15 +109,5 @@ public class TicTacToeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 
-    }
-
-    protected void forwardGameRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (this.errorMsg != null){
-            request.setAttribute("errorMsg", this.errorMsg);
-        }
-        request.setAttribute("players", this.players);
-        request.setAttribute("curPlayer", this.curPlayer);
-        request.setAttribute("board", this.board.getBoard());
-        request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
     }
 }

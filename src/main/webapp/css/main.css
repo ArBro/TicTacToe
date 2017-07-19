@@ -8,6 +8,7 @@ a {
 
 table, tr, td {
     border: 1px solid black;
+    border-collapse: collapse;
 }
 
 tr {
@@ -19,4 +20,8 @@ td {
     height: 30px;
     vertical-align: middle;
     text-align: center;
+}
+
+td:hover {
+    background-color: darkgray;
 }
