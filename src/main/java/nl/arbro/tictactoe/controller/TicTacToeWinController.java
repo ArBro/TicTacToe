@@ -21,6 +21,7 @@ public class TicTacToeWinController implements WinController {
         // (0,2),(1,1),(2,0)
         String [][] board = (String[][]) o;
 
+        //TODO: Opschonen code Ook bruikbaar maken voor meer op een rij?
         if (board[0][0].equals(board[0][1]) && board[0][1].equals(board[0][2]) &&
                 !board[0][0].equals("[ ]")) {
             winningToken = board[0][0].substring(1, 2);

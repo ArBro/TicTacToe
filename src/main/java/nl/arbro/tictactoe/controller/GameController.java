@@ -1,117 +1,76 @@
 package nl.arbro.tictactoe.controller;
 
+import nl.arbro.tictactoe.model.Board;
+import nl.arbro.tictactoe.model.Player;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
- * Created by ArBro on 24-5-2017.
+ * Created by arbro on 10-7-17.
  */
+//TODO: Avoid Code break when navigating backwards without an existing game
+//TODO: Make sure that on different requests, multiple instances are created
 
+@SuppressWarnings("ALL")
+@WebServlet (name = "GameController")
+public class GameController extends HttpServlet {
 
-import nl.arbro.tictactoe.model.*;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        PlayerController playerCtrl = (PlayerController) session.getAttribute("playerCtrl");
+        Board board = (Board) session.getAttribute("board");
 
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+        String nextMoveInput = request.getParameter("input");
+        Player curPlayer = (Player) session.getAttribute("curPlayer");
+        playerCtrl = (PlayerController) session.getAttribute("playerCtrl");
+        int move;
+        session.setAttribute("errorMsg", new String());
+        try {
+            move = Integer.parseInt(nextMoveInput);
+            if (move <= 0 || move > 9) {
+                request.setAttribute("errorMsg", "Your input is not in the range 1-9");
+                doGet(request, response);
+            }
 
-@Deprecated
-public class GameController {
+            board = (Board) session.getAttribute("board");
+            if (board.getIsFilledField(move)){
+                request.setAttribute("errorMsg", "Please fill in a non-empty field");
+                doGet(request, response);
+            }
 
-    //TODO: PlayerSet changed, so GameController wont work anymore.
-    private Set<Token> tokenSet = EnumSet.allOf(Token.class);
-    private Scanner scanner = new Scanner(System.in);
-    private Board board;
-    private PlayerController playerController = new PlayerController();
+            board.fillBoard(move, curPlayer.getPlayToken());
+            session.setAttribute("board", board);
 
-    public void initGame(){
-        System.out.println("Welcome to TicTacToe - A game full of surprises!");
-        System.out.println("First I would like to know who your are.");
-
-        //add 2 Players with their tokens
-        Iterator<Token> it = tokenSet.iterator();
-        for (int i = 0; i<2; i++){
-            System.out.print("Player" + (i+1) + ", please enter your name: ");
-            String name = scanner.next();
-            Token token = it.next();
-            try {
-                while (!playerController.addPlayer(i, name, token)){
-                    System.out.println("You are trying to trick me! The player with that name already signed up!");
-                    System.out.print("Player" + (i+1) + ", please enter a new player name: ");
-                    name = scanner.next();
+            //Check for a winner or a draw
+            TicTacToeWinController winCtrl = new TicTacToeWinController();
+            if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())) {
+                if (winCtrl.hasWinner(board.getBoard())) {
+                    session.setAttribute("winner", curPlayer);
+                } else {
+                    session.setAttribute("winner", "draw");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                request.setAttribute("board", board.getBoard());
+                session.setAttribute("boardDisplay", board.getBoard());
+                request.getServletContext().getRequestDispatcher("/WEB-INF/winner.jsp").forward(request, response);
             }
-        }
-
-        this.askForNewGame();
-    }
-
-    private void askForNewGame() {
-        //Ask to start a tictactoe
-        String userInput;
-        do {
-            System.out.print("Do you like to start a new game? (Y/N) ");
-            userInput = scanner.next();
-        } while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N"));
-
-        if (userInput.equalsIgnoreCase("Y")){
-            System.out.println("A new game will start. Good luck!");
-            this.startNewGame();
-            return;
-        } else {
-            System.out.println("What a pity! Hopefully I will see you back soon!");
+            session.setAttribute("curPlayer", playerCtrl.switchCurPlayer(curPlayer));
+            doGet(request, response);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMsg", "Your input is not a valid integer");
+            doGet(request, response);
         }
     }
 
-    private void startNewGame(){
-        //Generate Board
-        board = new Board();
 
-        //Determine First Player
-
-        //TODO: What to do if players have all kind of ids?
-        Player curPlayer = playerController.chooseFirstPlayer();
-        System.out.println("I randomly picked a player to start first. " + curPlayer.getPlayerName() + " it's your lucky day!");
-
-        //NextMove
-        board.displayBoard();
-        this.playMoves(curPlayer);
-        return;
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
     }
-
-    private void playMoves(Player curPlayer){
-        //Get next move
-        System.out.print(curPlayer.getPlayerName() + " please enter a value from 1 - 9 for an empty field: ");
-        int nextMove = curPlayer.playMove();
-
-        while (board.getIsFilledField(nextMove)) {
-            System.out.print("You have not entered an empty field. ");
-            System.out.print(curPlayer.getPlayerName() + " please enter a value from 1 - 9 for an empty field: ");
-            nextMove = curPlayer.playMove();
-        }
-
-        board.fillBoard(nextMove, curPlayer.getPlayToken());
-        board.displayBoard();
-
-
-        TicTacToeWinController winCtrl = new TicTacToeWinController();
-
-        if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())){
-            if (winCtrl.hasWinner(board.getBoard())) {
-                //TODO: What to do if players have all kind of ids?
-                Player winner = playerController.getPlayers().getPlayerById(winCtrl.winningToken.equals(playerController.getPlayers().getPlayerById(0).getPlayToken().toString()) ? 0 : 1);
-                winCtrl.announceWinner(winner);
-            } else {
-                winCtrl.announceDraw();
-            }
-
-            this.askForNewGame();
-            return;
-        } else {
-            this.playMoves(playerController.switchCurPlayer(curPlayer));
-            return;
-        }
-    }
-
 }
-

@@ -15,7 +15,7 @@ public class HumanPlayer extends Player {
 
     //Methods
     //TODO: Method will not work with gameController
-    //TODO: Update game controller to work with TicTacToeContoller
+    //TODO: Update game controller to work with GameController
 
     @Override
     public int playMove(){
