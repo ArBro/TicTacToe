@@ -9,6 +9,9 @@ public abstract class Player {
     private int playerId;
     private String playerName;
     private Token playToken;
+    private Boolean isCurrentPlayer = false;
+
+
 
     //Constructors
     Player(int id, String name){
@@ -40,6 +43,14 @@ public abstract class Player {
 
     public void setPlayToken(Token playToken) {
         this.playToken = playToken;
+    }
+
+    public Boolean getIsCurrentPlayer() {
+        return isCurrentPlayer;
+    }
+
+    public void setIsCurrentPlayer(Boolean currentPlayer) {
+        isCurrentPlayer = currentPlayer;
     }
 
     //Equals and Hashcode

@@ -13,13 +13,13 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "HomePageController")
+@WebServlet(name = "HomePageController", urlPatterns = {"/home", ""})
 public class HomePageController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+        request.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(request, response);
     }
 }

@@ -13,11 +13,7 @@ public class Board {
 
     //Constructors
     public Board(){
-        for (String[] row : this.board){
-            for (int i = 0; i < row.length; i++) {
-                row[i] = "[ ]";
-            }
-        }
+        this.emptyBoard();
     }
 
     //Getters & Setters
@@ -51,48 +47,41 @@ public class Board {
     public void emptyBoard(){
         for (String[] row : board){
             for (int i = 0; i < row.length; i++) {
-                row[i] = "[ ]";
+                row[i] = "";
             }
         }
     }
-
-    public void displayBoard(){
-        for (String[] row : board){
-            for (String col : row ){
-                System.out.print(col);
-            }
-            System.out.println();
-        }
-    }
+    
 
     public void fillBoard(int move, Token t){
+        String f = t.toString();
         switch(move){
             case 1:
-                this.board[0][0] = "[" + t + "]";
+                this.board[0][0] = f;
                 break;
             case 2:
-                this.board[0][1] = "[" + t + "]";
+                this.board[0][1] = f;
                 break;
             case 3:
-                this.board[0][2] = "[" + t + "]";
+                this.board[0][2] = f;
                 break;
             case 4:
-                this.board[1][0] = "[" + t + "]";
+                this.board[1][0] = f;
                 break;
             case 5:
-                this.board[1][1] = "[" + t + "]";
+                this.board[1][1] = f;
                 break;
             case 6:
-                this.board[1][2] = "[" + t + "]";
+                this.board[1][2] = f;
                 break;
             case 7:
-                this.board[2][0] = "[" + t + "]";
+                this.board[2][0] = f;
                 break;
             case 8:
-                this.board[2][1] = "[" + t + "]";
+                this.board[2][1] = f;
                 break;
             case 9:
-                this.board[2][2] = "[" + t + "]";
+                this.board[2][2] = f;
                 break;
             default:
                 break;

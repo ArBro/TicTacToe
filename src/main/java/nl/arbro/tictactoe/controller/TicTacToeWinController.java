@@ -2,61 +2,63 @@ package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.Player;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by ArBro on 18-6-2017.
  */
 public class TicTacToeWinController implements WinController {
     String winningToken;
+    static final Pattern THREE_IN_A_ROW = Pattern.compile("(\\w+)(?:\\1){2}");
 
     @Override
     public boolean hasWinner(Object o) {
-        //Possible wins
-        // (0,0),(0,1),(0,2)
-        // (1,0),(1,1),(1,2)
-        // (2,0),(2,1),(2,2)
-        // (0,0),(1,0),(2,0)
-        // (0,1),(1,1),(2,1)
-        // (0,2),(1,2),(2,2)
-        // (0,0),(1,1),(2,2)
-        // (0,2),(1,1),(2,0)
         String [][] board = (String[][]) o;
 
-        //TODO: Opschonen code Ook bruikbaar maken voor meer op een rij?
-        if (board[0][0].equals(board[0][1]) && board[0][1].equals(board[0][2]) &&
-                !board[0][0].equals("[ ]")) {
-            winningToken = board[0][0].substring(1, 2);
-            return true;
-        } else if (board[1][0].equals(board[1][1]) && board[1][1].equals(board[1][2]) &&
-                !board[1][0].equals("[ ]")) {
-            winningToken = board[1][0].substring(1, 2);
-            return true;
-        } else if (board[2][0].equals(board[2][1]) && board[2][1].equals(board[2][2]) &&
-                !board[2][0].equals("[ ]")) {
-            winningToken = board[2][0].substring(1, 2);
-            return true;
-        } else if (board[0][0].equals(board[1][0]) && board[1][0].equals(board[2][0]) &&
-                !board[0][0].equals("[ ]")) {
-            winningToken = board[0][0].substring(1, 2);
-            return true;
-        } else if (board[0][1].equals(board[1][1]) && board[1][1].equals(board[2][1]) &&
-                !board[0][1].equals("[ ]")) {
-            winningToken = board[0][1].substring(1, 2);
-            return true;
-        } else if (board[0][2].equals(board[1][2]) && board[1][2].equals(board[2][2]) &&
-                !board[0][2].equals("[ ]")) {
-            winningToken = board[0][2].substring(1, 2);
-            return true;
-        } else if (board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2]) &&
-                !board[0][0].equals("[ ]")) {
-            winningToken = board[0][0].substring(1, 2);
-            return true;
-        } else if (board[0][2].equals(board[1][1]) && board[1][1].equals(board[2][0]) &&
-                !board[0][2].equals("[ ]")) {
-            winningToken = board[0][2].substring(1, 2);
-            return true;
-        } else {
-            return false;
+        // Check Rows
+        for(String[] row : board){
+
+            String r = String.join("", row);
+            if(THREE_IN_A_ROW.matcher(r).matches()){
+                //winningToken = r.substring(0,1);
+                return true;
+            }
         }
+
+        //Check Columns
+        for(int j = 0; j < board.length; j++){
+            StringBuilder c = new StringBuilder();
+            for(int i = 0; i < board.length; i++){
+                c.append(board[i][j]);
+            }
+            if(THREE_IN_A_ROW.matcher(c.toString()).matches()) {
+                //winningToken = c.substring(0,1);
+                return true;
+            }
+        }
+
+        //TODO: Check crossrows nog dynamisch maken. Nu hardcoded.
+        //Check CrossRows
+        StringBuilder cr = new StringBuilder();
+        cr.append(board[0][0]);
+        cr.append(board[1][1]);
+        cr.append(board[2][2]);
+        if(THREE_IN_A_ROW.matcher(cr.toString()).matches()) {
+            //winningToken = cr.toString().substring(0,1);
+            return true;
+        }
+
+        cr = new StringBuilder();
+        cr.append(board[0][2]);
+        cr.append(board[1][1]);
+        cr.append(board[2][0]);
+        if(THREE_IN_A_ROW.matcher(cr.toString()).matches()) {
+            //winningToken = cr.toString().substring(0,1);
+            return true;
+        }
+
+        return false;
+
     }
 
     @Override

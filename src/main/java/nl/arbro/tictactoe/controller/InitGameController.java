@@ -1,6 +1,7 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.Board;
+import nl.arbro.tictactoe.model.TicTacToeGame;
 import nl.arbro.tictactoe.model.Token;
 
 import javax.servlet.ServletException;
@@ -27,27 +28,22 @@ public class InitGameController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Board board = new Board();
-        PlayerController playerCtrl = new PlayerController();
+        TicTacToeGame game = new TicTacToeGame();
 
         Iterator<Token> it = TOKENSET.iterator();
         try {
-            playerCtrl.addPlayerWeb(0, request.getParameter("player1"), it.next());
-            playerCtrl.addPlayerWeb(1, request.getParameter("player2"), it.next());
-            session.setAttribute("playerCtrl", playerCtrl);
+            game.getPlayers().addPlayer(0, request.getParameter("player1"), it.next());
+            game.getPlayers().addPlayer(1, request.getParameter("player2"), it.next());
+            game.getBoard().emptyBoard();
+            game.getPlayers().chooseFirstPlayer();
 
         } catch (Exception e) {
             request.setAttribute("errorMsg", "Please fill in different player names");
             request.getServletContext().getRequestDispatcher("/").forward(request, response);
         }
 
-        session.setAttribute("players", playerCtrl.getPlayers());
-        session.setAttribute("curPlayer", playerCtrl.chooseFirstPlayer());
-        board.emptyBoard();
-        session.setAttribute("board", board);
-        session.setAttribute("boardDisplay", board.getBoard());
+        session.setAttribute("game", game);
         session.setAttribute("errorMsg", new String());
-        session.setAttribute("gameStarted", "true");
 
         response.sendRedirect("game");
     }

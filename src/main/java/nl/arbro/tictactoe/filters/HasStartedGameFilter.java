@@ -13,7 +13,7 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebFilter(filterName = "HasStartedGameFilter")
+@WebFilter(filterName = "HasStartedGameFilter", urlPatterns = {"/game"})
 public class HasStartedGameFilter implements Filter {
     public void destroy() {
     }
@@ -24,7 +24,7 @@ public class HasStartedGameFilter implements Filter {
         HttpServletResponse httpResp = (HttpServletResponse) resp;
         HttpSession session = httpReq.getSession(true);
 
-        if (session.getAttribute("gameStarted") != null && session.getAttribute("gameStarted").equals("true")){
+        if (session.getAttribute("game") != null){
             chain.doFilter(req, resp);
         } else {
             httpResp.sendRedirect("home");
