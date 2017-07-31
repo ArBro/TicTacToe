@@ -15,12 +15,11 @@
 </head>
 <body>
     <c:choose>
-        <c:when test="${winner.equals('draw')}">
-            <h2>I can't decide who has won. It is a draw.</h2>
+        <c:when test="${winCtrl.getWinCategory().equals('Draw')}">
+            <h2>${winCtrl.announceDraw()}</h2>
         </c:when>
         <c:otherwise>
-            <!-- TODO: getPlayerName() not found -->
-            <h2>${winner.getPlayerName()} has won. Congratulations!</h2>
+            <h2>${winCtrl.announceWinner()}</h2>
         </c:otherwise>
     </c:choose>
 

@@ -1,8 +1,10 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.Board;
+import nl.arbro.tictactoe.exceptions.InvalidInputException;
 import nl.arbro.tictactoe.model.Player;
 import nl.arbro.tictactoe.model.TicTacToeGame;
+import nl.arbro.tictactoe.model.WinStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,46 +34,47 @@ public class GameController extends HttpServlet {
         String nextMoveInput = request.getParameter("input");
 
         int move;
-        session.setAttribute("errorMsg", new String());
 
         try {
-            move = Integer.parseInt(nextMoveInput);
+            move = Integer.parseInt(nextMoveInput); //Throws IllegalArgumentException
             if (move <= 0 || move > 9) {
-                request.setAttribute("errorMsg", "Your input is not in the range 1-9");
-                doGet(request, response);
+                throw new InvalidInputException("Your input is not in the range 1-9");
             }
 
             if (board.getIsFilledField(move)){
-                request.setAttribute("errorMsg", "Please fill in a non-empty field");
-                doGet(request, response);
+                throw new InvalidInputException("Please fill in a non-empty field");
             }
 
             board.fillBoard(move, curPlayer.getPlayToken());
-            session.setAttribute("game", game);
+
 
             //Check for a winner or a draw
             TicTacToeWinController winCtrl = new TicTacToeWinController();
-            if (!board.getEmptyFieldsLeft() || winCtrl.hasWinner(board.getBoard())) {
-                if (winCtrl.hasWinner(board.getBoard())) {
-                    session.setAttribute("winner", curPlayer);
-                } else {
-                    session.setAttribute("winner", "draw");
-                }
-                request.getServletContext().getRequestDispatcher("/WEB-INF/winner.jsp").forward(request, response);
+            winCtrl.checkWinner(board, curPlayer);
+            if (winCtrl.getWinCategory() != WinStatus.Playing) {
+                session.setAttribute("winCtrl", winCtrl);
+                response.sendRedirect("winner");
             }
 
             game.getPlayers().switchCurPlayer();
-            doGet(request, response);
 
         } catch (NumberFormatException e) {
             request.setAttribute("errorMsg", "Your input is not a valid integer");
-            doGet(request, response);
+        } catch (InvalidInputException e) {
+            request.setAttribute("errorMsg", e.getMessage());
+        } finally {
+            session.setAttribute("game", game);
+            if(session.getAttribute("winCtrl") == null) {
+                doGet(request, response);
+            }
         }
     }
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMsg", new String());
         request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
     }
 }

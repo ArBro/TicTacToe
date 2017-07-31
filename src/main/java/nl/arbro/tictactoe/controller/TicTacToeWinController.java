@@ -1,6 +1,8 @@
 package nl.arbro.tictactoe.controller;
 
+import nl.arbro.tictactoe.model.Board;
 import nl.arbro.tictactoe.model.Player;
+import nl.arbro.tictactoe.model.WinStatus;
 
 import java.util.regex.Pattern;
 
@@ -8,19 +10,20 @@ import java.util.regex.Pattern;
  * Created by ArBro on 18-6-2017.
  */
 public class TicTacToeWinController implements WinController {
-    String winningToken;
     static final Pattern THREE_IN_A_ROW = Pattern.compile("(\\w+)(?:\\1){2}");
+    private Board board;
+    private Player winner;
+    private WinStatus winCategory = WinStatus.Playing;
 
     @Override
-    public boolean hasWinner(Object o) {
-        String [][] board = (String[][]) o;
+    public boolean hasWinner(Object b) {
+        String [][] board = (String[][]) b;
 
         // Check Rows
         for(String[] row : board){
 
             String r = String.join("", row);
             if(THREE_IN_A_ROW.matcher(r).matches()){
-                //winningToken = r.substring(0,1);
                 return true;
             }
         }
@@ -32,7 +35,6 @@ public class TicTacToeWinController implements WinController {
                 c.append(board[i][j]);
             }
             if(THREE_IN_A_ROW.matcher(c.toString()).matches()) {
-                //winningToken = c.substring(0,1);
                 return true;
             }
         }
@@ -44,7 +46,6 @@ public class TicTacToeWinController implements WinController {
         cr.append(board[1][1]);
         cr.append(board[2][2]);
         if(THREE_IN_A_ROW.matcher(cr.toString()).matches()) {
-            //winningToken = cr.toString().substring(0,1);
             return true;
         }
 
@@ -53,7 +54,6 @@ public class TicTacToeWinController implements WinController {
         cr.append(board[1][1]);
         cr.append(board[2][0]);
         if(THREE_IN_A_ROW.matcher(cr.toString()).matches()) {
-            //winningToken = cr.toString().substring(0,1);
             return true;
         }
 
@@ -61,15 +61,33 @@ public class TicTacToeWinController implements WinController {
 
     }
 
-    @Override
-    public void announceWinner(Object o) {
-        Player winner = (Player) o;
-        System.out.println(winner.getPlayerName() + " has won. Congratulations!");
+    public void checkWinner(Object b, Object p){
+        board = (Board) b;
+        winner = (Player) p;
+        if (this.hasWinner(board.getBoard())) {
+            this.setWinCategory(WinStatus.Winner);
+        } else if (!board.getEmptyFieldsLeft()) {
+            this.setWinCategory(WinStatus.Draw);
+        }
     }
 
     @Override
-    public void announceDraw() {
-        System.out.println("I can't decide who has won. It is a draw.");
+    public String announceWinner() {
+        String message = winner.getPlayerName() + " has won. Congratulations!";
+        return message;
     }
 
+    @Override
+    public String announceDraw() {
+        String message = "I can't decide who has won. It is a draw.";
+        return message;
+    }
+
+    public void setWinCategory(WinStatus w) {
+        this.winCategory = w;
+    }
+
+    public WinStatus getWinCategory() {
+        return this.winCategory;
+    }
 }

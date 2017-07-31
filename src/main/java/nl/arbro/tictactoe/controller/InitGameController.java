@@ -37,18 +37,17 @@ public class InitGameController extends HttpServlet {
             game.getBoard().emptyBoard();
             game.getPlayers().chooseFirstPlayer();
 
+            session.setAttribute("game", game);
+            response.sendRedirect("game");
+
         } catch (Exception e) {
-            request.setAttribute("errorMsg", "Please fill in different player names");
-            request.getServletContext().getRequestDispatcher("/").forward(request, response);
+            session.setAttribute("errorMsg", "Please fill in different player names");
+            response.sendRedirect("home");
         }
 
-        session.setAttribute("game", game);
-        session.setAttribute("errorMsg", new String());
-
-        response.sendRedirect("game");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.sendRedirect("home");
     }
 }
