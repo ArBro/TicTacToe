@@ -48,6 +48,15 @@ public class InitGameController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("home");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("game") != null){
+            TicTacToeGame game = (TicTacToeGame) session.getAttribute("game");
+            game.resetGame();
+            session.setAttribute("game", game);
+            response.sendRedirect("game");
+        } else {
+            response.sendRedirect("tictactoe");
+        }
+
     }
 }

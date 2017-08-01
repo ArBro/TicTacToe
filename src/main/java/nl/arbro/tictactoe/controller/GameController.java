@@ -30,6 +30,7 @@ public class GameController extends HttpServlet {
         TicTacToeGame game = (TicTacToeGame) session.getAttribute("game");
         Player curPlayer = game.getPlayers().getCurrentPlayer();
         Board board = game.getBoard();
+        TicTacToeWinController winCtrl = game.getWinCtrl();
 
         String nextMoveInput = request.getParameter("input");
 
@@ -49,10 +50,9 @@ public class GameController extends HttpServlet {
 
 
             //Check for a winner or a draw
-            TicTacToeWinController winCtrl = new TicTacToeWinController();
             winCtrl.checkWinner(board, curPlayer);
             if (winCtrl.getWinCategory() != WinStatus.Playing) {
-                session.setAttribute("winCtrl", winCtrl);
+                session.setAttribute("game", game);
                 response.sendRedirect("winner");
             }
 
@@ -64,7 +64,7 @@ public class GameController extends HttpServlet {
             request.setAttribute("errorMsg", e.getMessage());
         } finally {
             session.setAttribute("game", game);
-            if(session.getAttribute("winCtrl") == null) {
+            if(winCtrl.getWinCategory() == WinStatus.Playing) {
                 doGet(request, response);
             }
         }

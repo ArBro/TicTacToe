@@ -15,6 +15,9 @@
 </head>
 
 <body>
+
+    <%@include file="directives/_navbar.html"%>
+    <hr/>
     <%@include file="directives/start.jsp"%>
 
 </body>

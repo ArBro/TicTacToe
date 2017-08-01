@@ -14,7 +14,7 @@
     <p></p>
     <p>${game.getPlayers().getCurrentPlayer().getPlayerName()} it is your turn!</p>
     <form method="post">
-        Input: <input type="text" name="input" /> <input type="submit" name="action" value="Play move"/>
+        Input: <input type="text" name="input" /> <input type="submit" value="Play move"/>
     </form>
     <p class="error">${errorMsg}</p>
 

@@ -2,6 +2,7 @@ package nl.arbro.tictactoe.filters;
 
 import nl.arbro.tictactoe.controller.TicTacToeWinController;
 import nl.arbro.tictactoe.model.TicTacToeGame;
+import nl.arbro.tictactoe.model.WinStatus;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -28,9 +29,10 @@ public class HasActiveGameFilter implements Filter {
         HttpSession session = httpReq.getSession(true);
 
         if (session.getAttribute("game") != null){
-            if (session.getAttribute("winCtrl") != null) {
-                TicTacToeWinController winCtrl = (TicTacToeWinController) session.getAttribute("winCtrl");
-                if (!winCtrl.getWinCategory().equals("Playing")){
+            TicTacToeGame game = (TicTacToeGame) session.getAttribute("game");
+            TicTacToeWinController winCtrl = game.getWinCtrl();
+            if (game.getWinCtrl().getWinCategory() != WinStatus.Playing) {
+                if (winCtrl.getWinCategory() != WinStatus.Playing){
                     httpResp.sendRedirect("winner");
                 } else {
                     chain.doFilter(req, resp);
@@ -40,7 +42,7 @@ public class HasActiveGameFilter implements Filter {
             }
 
         } else {
-            httpResp.sendRedirect("home");
+            httpResp.sendRedirect("tictactoe");
         }
 
     }

@@ -27,10 +27,8 @@ public class HasStartedGameFilter implements Filter {
         if (session.getAttribute("game") != null){
             chain.doFilter(req, resp);
         } else {
-            httpResp.sendRedirect("home");
-
+            httpResp.sendRedirect("tictactoe");
         }
-
     }
 
     public void init(FilterConfig config) throws ServletException {

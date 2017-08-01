@@ -50,6 +50,8 @@ public class Board {
                 row[i] = "";
             }
         }
+
+        isFilledField = new boolean[9];
     }
     
 

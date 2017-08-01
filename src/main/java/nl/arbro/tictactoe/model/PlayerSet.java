@@ -47,13 +47,16 @@ public class PlayerSet extends LinkedHashSet<Player> {
     }
 
     public void chooseFirstPlayer(){
+        for (Player player : this){
+            player.setIsCurrentPlayer(false);
+        }
+
         Random playerChooser = new Random();
         this.getPlayerById(playerChooser.nextInt(1)).setIsCurrentPlayer(true);
     }
 
     public void switchCurPlayer(){
         //TODO: What to do if players have all kind of ids?
-        //TODO: SwitchCurrentplayer gives nullexception
         Iterator<Player> playerIterator = this.iterator();
 
         while(playerIterator.hasNext()){

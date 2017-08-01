@@ -20,6 +20,6 @@ public class PageNotFoundHandler extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("home");
+        response.sendRedirect("tictactoe");
     }
 }

@@ -15,17 +15,18 @@
 </head>
 <body>
     <c:choose>
-        <c:when test="${winCtrl.getWinCategory().equals('Draw')}">
-            <h2>${winCtrl.announceDraw()}</h2>
+        <c:when test="${game.getWinCtrl().getWinCategory().equals('Draw')}">
+            <h2>${game.getWinCtrl().announceDraw()}</h2>
         </c:when>
         <c:otherwise>
-            <h2>${winCtrl.announceWinner()}</h2>
+            <h2>${game.getWinCtrl().announceWinner()}</h2>
         </c:otherwise>
     </c:choose>
 
     <%@include file="directives/board.jsp"%>
 
-    <p><a href="home">Start a new game</a></p>
+    <p></p>
+    <p><a href="initgame"><input type="button" value="Start a new Game"></a> <a href="home"><input type="button" value="Reset Game"></a></p>
 
 </body>
 </html>
