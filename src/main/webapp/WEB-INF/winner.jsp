@@ -15,7 +15,7 @@
 </head>
 <body>
     <c:choose>
-        <c:when test="${game.getWinCtrl().getWinCategory().equals('Draw')}">
+        <c:when test="${game.getGameStatus().equals('Draw')}">
             <h2>${game.getWinCtrl().announceDraw()}</h2>
         </c:when>
         <c:otherwise>

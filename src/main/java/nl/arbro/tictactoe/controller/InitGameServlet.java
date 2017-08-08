@@ -1,7 +1,5 @@
 package nl.arbro.tictactoe.controller;
 
-import nl.arbro.tictactoe.model.Board;
-import nl.arbro.tictactoe.model.TicTacToeGame;
 import nl.arbro.tictactoe.model.Token;
 
 import javax.servlet.ServletException;
@@ -21,23 +19,23 @@ import java.util.Set;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "InitGameController", urlPatterns = {"/initgame"})
-public class InitGameController extends HttpServlet {
+@WebServlet(name = "InitGameServlet", urlPatterns = {"/initgame"})
+public class InitGameServlet extends HttpServlet {
 
     static final private Set<Token> TOKENSET = EnumSet.allOf(Token.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        TicTacToeGame game = new TicTacToeGame();
+        GameController gameCtrl = new GameController();
 
         Iterator<Token> it = TOKENSET.iterator();
         try {
-            game.getPlayers().addPlayer(0, request.getParameter("player1"), it.next());
-            game.getPlayers().addPlayer(1, request.getParameter("player2"), it.next());
-            game.getBoard().emptyBoard();
-            game.getPlayers().chooseFirstPlayer();
+            gameCtrl.getPlayers().addPlayer(0, request.getParameter("player1"), it.next());
+            gameCtrl.getPlayers().addPlayer(1, request.getParameter("player2"), it.next());
+            gameCtrl.getBoard().emptyBoard();
+            gameCtrl.getPlayers().chooseFirstPlayer();
 
-            session.setAttribute("game", game);
+            session.setAttribute("game", gameCtrl);
             response.sendRedirect("game");
 
         } catch (Exception e) {
@@ -50,9 +48,9 @@ public class InitGameController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if(session.getAttribute("game") != null){
-            TicTacToeGame game = (TicTacToeGame) session.getAttribute("game");
-            game.resetGame();
-            session.setAttribute("game", game);
+            GameController gameCtrl = (GameController) session.getAttribute("game");
+            gameCtrl.resetGame();
+            session.setAttribute("game", gameCtrl);
             response.sendRedirect("game");
         } else {
             response.sendRedirect("tictactoe");

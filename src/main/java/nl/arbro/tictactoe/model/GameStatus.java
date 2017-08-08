@@ -6,7 +6,7 @@ package nl.arbro.tictactoe.model;
  * Project: tictactoe
  **/
 
-public enum WinStatus {
+public enum GameStatus {
 
     Playing,
     Winner,

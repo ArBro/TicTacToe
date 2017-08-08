@@ -1,80 +1,97 @@
 package nl.arbro.tictactoe.controller;
 
-import nl.arbro.tictactoe.model.Board;
 import nl.arbro.tictactoe.exceptions.InvalidInputException;
+import nl.arbro.tictactoe.model.Board;
+import nl.arbro.tictactoe.model.GameStatus;
 import nl.arbro.tictactoe.model.Player;
-import nl.arbro.tictactoe.model.TicTacToeGame;
-import nl.arbro.tictactoe.model.WinStatus;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import nl.arbro.tictactoe.model.PlayerSet;
 
 /**
- * Created by arbro on 10-7-17.
- */
+ * Created By: arbro
+ * Date: 7-8-17 - 19:00
+ * Project: TicTacToe
+ **/
 
-//TODO: Avoid Code break when navigating backwards without an existing game
-//TODO: Make sure that on different requests, multiple instances are created
+public class GameController {
 
-@SuppressWarnings("ALL")
-@WebServlet (name = "GameController", urlPatterns = {"/game"})
-public class GameController extends HttpServlet {
+    private Board board;
+    private PlayerSet players;
+    private WinController winCtrl;
+    private GameStatus gameStatus;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        TicTacToeGame game = (TicTacToeGame) session.getAttribute("game");
-        Player curPlayer = game.getPlayers().getCurrentPlayer();
-        Board board = game.getBoard();
-        TicTacToeWinController winCtrl = game.getWinCtrl();
+    //Constructor
+    public GameController() {
+        this.board = new Board();
+        this.players = new PlayerSet();
+        this.winCtrl = new WinController();
+        this.gameStatus = GameStatus.Playing;
+    }
 
-        String nextMoveInput = request.getParameter("input");
+    //Getters & Setters
+    public WinController getWinCtrl() {
+        return winCtrl;
+    }
 
-        int move;
+    public Board getBoard() {
+        return this.board;
+    }
 
-        try {
-            move = Integer.parseInt(nextMoveInput); //Throws IllegalArgumentException
-            if (move <= 0 || move > 9) {
-                throw new InvalidInputException("Your input is not in the range 1-9");
-            }
+    public PlayerSet getPlayers() {
+        return this.players;
+    }
 
-            if (board.getIsFilledField(move)){
-                throw new InvalidInputException("Please fill in a non-empty field");
-            }
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 
-            board.fillBoard(move, curPlayer.getPlayToken());
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
 
+    //Game Methods
+    public void progressMove(String moveInput) throws IllegalArgumentException {
+        Player curPlayer = this.getPlayers().getCurrentPlayer();
+        int move = Integer.parseInt(moveInput); //Throws IllegalArgumentException
 
-            //Check for a winner or a draw
-            winCtrl.checkWinner(board, curPlayer);
-            if (winCtrl.getWinCategory() != WinStatus.Playing) {
-                session.setAttribute("game", game);
-                response.sendRedirect("winner");
-            }
+        if (move <= 0 || move > 9) {
+            throw new InvalidInputException("Your input is not in the range 1-9");
+        }
 
-            game.getPlayers().switchCurPlayer();
+        if (board.getIsFilledField(move)){
+            throw new InvalidInputException("Please fill in a non-empty field");
+        }
 
-        } catch (NumberFormatException e) {
-            request.setAttribute("errorMsg", "Your input is not a valid integer");
-        } catch (InvalidInputException e) {
-            request.setAttribute("errorMsg", e.getMessage());
-        } finally {
-            session.setAttribute("game", game);
-            if(winCtrl.getWinCategory() == WinStatus.Playing) {
-                doGet(request, response);
-            }
+        this.board.fillBoard(move, curPlayer.getPlayToken());
+        this.updateGameStatus();
+        this.getPlayers().switchCurPlayer();
+
+    }
+
+    public void updateGameStatus(){
+        Player curPlayer = this.getPlayers().getCurrentPlayer();
+        if (this.winCtrl.hasWinner(board.getBoard())) {
+            this.winCtrl.setWinner(curPlayer);
+            this.setGameStatus(GameStatus.Winner);
+        } else if (!board.getEmptyFieldsLeft()) {
+            this.setGameStatus(GameStatus.Draw);
+        } else {
+            //do Nothing
+        }
+
+    }
+
+    public boolean nextMoveAllowed() {
+        if (this.getGameStatus() != GameStatus.Playing){
+            return false;
+        } else {
+            return true;
         }
     }
 
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.setAttribute("errorMsg", new String());
-        request.getServletContext().getRequestDispatcher("/WEB-INF/game.jsp").forward(request, response);
+    public void resetGame(){
+        this.getBoard().emptyBoard();
+        this.getPlayers().chooseFirstPlayer();
+        this.setGameStatus(GameStatus.Playing);
     }
+    
 }

@@ -13,8 +13,8 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "WinnerController", urlPatterns = "/winner")
-public class WinnerController extends HttpServlet {
+@WebServlet(name = "WinServlet", urlPatterns = "/winner")
+public class WinServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }

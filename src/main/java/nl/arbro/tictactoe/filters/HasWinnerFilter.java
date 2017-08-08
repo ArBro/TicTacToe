@@ -1,12 +1,11 @@
 package nl.arbro.tictactoe.filters;
 
-import nl.arbro.tictactoe.controller.TicTacToeWinController;
-import nl.arbro.tictactoe.model.TicTacToeGame;
-import nl.arbro.tictactoe.model.WinStatus;
+import nl.arbro.tictactoe.controller.GameController;
+import nl.arbro.tictactoe.controller.WinController;
+import nl.arbro.tictactoe.model.GameStatus;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,15 +26,14 @@ public class HasWinnerFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) req;
         HttpServletResponse httpResp = (HttpServletResponse) resp;
         HttpSession session = httpReq.getSession(true);
-        TicTacToeGame game;
-        TicTacToeWinController winCtrl;
+        GameController gameCtrl;
 
         if (session.getAttribute("game") != null) {
-            game = (TicTacToeGame) session.getAttribute("game");
-            winCtrl = game.getWinCtrl();
+            gameCtrl = (GameController) session.getAttribute("game");
+            GameStatus gameStatus = gameCtrl.getGameStatus();
 
-            if (winCtrl.getWinCategory() != WinStatus.Playing) {
-                if (winCtrl.getWinCategory() != WinStatus.Playing) {
+            if (gameStatus != GameStatus.Playing) {
+                if (gameStatus != GameStatus.Playing) {
                     chain.doFilter(req, resp);
                 } else {
                     httpResp.sendRedirect("game");
