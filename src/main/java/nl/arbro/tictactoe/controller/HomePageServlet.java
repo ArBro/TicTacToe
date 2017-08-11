@@ -14,7 +14,7 @@ import java.io.IOException;
  **/
 
 @WebServlet(name = "TicTacToeController", urlPatterns = {"/tictactoe", ""})
-public class HomePageController extends HttpServlet {
+public class HomePageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }

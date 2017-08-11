@@ -1,10 +1,11 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.exceptions.InvalidInputException;
-import nl.arbro.tictactoe.model.Board;
-import nl.arbro.tictactoe.model.GameStatus;
-import nl.arbro.tictactoe.model.Player;
-import nl.arbro.tictactoe.model.PlayerSet;
+import nl.arbro.tictactoe.model.*;
+
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created By: arbro
@@ -49,6 +50,16 @@ public class GameController {
     }
 
     //Game Methods
+    public void initGame(String playerName1, String playerName2) throws Exception {
+        Set<Token> tokenSet = EnumSet.allOf(Token.class);
+        Iterator<Token> it = tokenSet.iterator();
+
+        this.getPlayers().addPlayer(0, playerName1, it.next());
+        this.getPlayers().addPlayer(1, playerName2, it.next());
+        this.getBoard().emptyBoard();
+        this.getPlayers().chooseFirstPlayer();
+    }
+
     public void progressMove(String moveInput) throws IllegalArgumentException {
         Player curPlayer = this.getPlayers().getCurrentPlayer();
         int move = Integer.parseInt(moveInput); //Throws IllegalArgumentException
@@ -93,5 +104,7 @@ public class GameController {
         this.getPlayers().chooseFirstPlayer();
         this.setGameStatus(GameStatus.Playing);
     }
-    
+
+
+
 }

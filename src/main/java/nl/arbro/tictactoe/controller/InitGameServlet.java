@@ -22,22 +22,17 @@ import java.util.Set;
 @WebServlet(name = "InitGameServlet", urlPatterns = {"/initgame"})
 public class InitGameServlet extends HttpServlet {
 
-    static final private Set<Token> TOKENSET = EnumSet.allOf(Token.class);
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String playerName1 = request.getParameter("player1");
+        String playerName2 = request.getParameter("player2");
+
         GameController gameCtrl = new GameController();
 
-        Iterator<Token> it = TOKENSET.iterator();
         try {
-            gameCtrl.getPlayers().addPlayer(0, request.getParameter("player1"), it.next());
-            gameCtrl.getPlayers().addPlayer(1, request.getParameter("player2"), it.next());
-            gameCtrl.getBoard().emptyBoard();
-            gameCtrl.getPlayers().chooseFirstPlayer();
-
+            gameCtrl.initGame(playerName1, playerName2);
             session.setAttribute("game", gameCtrl);
             response.sendRedirect("game");
-
         } catch (Exception e) {
             session.setAttribute("errorMsg", "Please fill in different player names");
             response.sendRedirect("home");
