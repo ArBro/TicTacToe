@@ -1,6 +1,5 @@
-<!-- TODO: Does not render well on Chromium -->
 <table>
-    <c:forEach var="row" items="${game.getBoard().getBoard()}">
+    <c:forEach var="row" items="${game.getGame().getBoard().getBoard()}">
         <tr>
             <c:forEach var="col" items="${row}">
                 <td>${col}</td>

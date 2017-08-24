@@ -8,8 +8,8 @@ package nl.arbro.tictactoe.model;
 
 public enum GameStatus {
 
-    Playing,
-    Winner,
-    Draw
+    PLAYING,
+    WINNER,
+    DRAW
 
 }

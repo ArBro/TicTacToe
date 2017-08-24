@@ -1,6 +1,6 @@
 package nl.arbro.tictactoe.controller;
 
-import nl.arbro.tictactoe.exceptions.InvalidInputException;
+import nl.arbro.tictactoe.model.InvalidInputException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,20 +14,17 @@ import java.io.IOException;
  * Created by arbro on 10-7-17.
  */
 
-//TODO: Avoid Code break when navigating backwards without an existing game
-//TODO: Make sure that on different requests, multiple instances are created
-
 @SuppressWarnings("ALL")
 @WebServlet (name = "TicTacToeServlet", urlPatterns = {"/game"})
 public class TicTacToeServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        GameController gameCtrl = (GameController) session.getAttribute("game");
+        TicTacToeGameController gameCtrl = (TicTacToeGameController) session.getAttribute("game");
         String nextMoveInput = request.getParameter("input");
 
         try {
-            gameCtrl.progressMove(nextMoveInput);
+            gameCtrl.processMove(nextMoveInput);
         } catch (NumberFormatException e) {
             request.setAttribute("errorMsg", "Your input is not a valid integer");
         } catch (InvalidInputException e) {

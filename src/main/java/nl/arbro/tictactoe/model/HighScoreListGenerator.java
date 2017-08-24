@@ -12,7 +12,7 @@ public class HighScoreListGenerator {
 
     public static ScoreList highScores = new ScoreList();
 
-    private static final void GET_HIGHSCORES() {
+     private static final void GET_HIGHSCORES() {
         File scoreFile = new File("src/data/scores.txt");
         try (Scanner sc = new Scanner(scoreFile)){
             while (sc.hasNextLine()){

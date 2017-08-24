@@ -14,14 +14,10 @@
     <link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <c:choose>
-        <c:when test="${game.getGameStatus().equals('Draw')}">
-            <h2>${game.getWinCtrl().announceDraw()}</h2>
-        </c:when>
-        <c:otherwise>
-            <h2>${game.getWinCtrl().announceWinner()}</h2>
-        </c:otherwise>
-    </c:choose>
+    <%@include file="directives/_navbar.html"%>
+    <hr/>
+
+    <h2>${game.announceWinner()}</h2>
 
     <%@include file="directives/board.jsp"%>
 

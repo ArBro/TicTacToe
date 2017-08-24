@@ -6,51 +6,40 @@ package nl.arbro.tictactoe.model;
 
 public abstract class Player {
 
-    private int playerId;
+    static private long playerID_seq = 1L;
+
+    private long playerId;
     private String playerName;
     private Token playToken;
     private Boolean isCurrentPlayer = false;
 
-
-
     //Constructors
-    Player(int id, String name){
-        this.setPlayerId(id);
-        this.setPlayerName(name);
+    Player(String name, Token token){
+        this.playerId = (playerID_seq++);
+        this.playToken = token;
+        this.playerName = name;
     }
 
     //Getters & Setters
 
-    public int getPlayerId() {
+    public long getPlayerId() {
         return this.playerId;
-    }
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
     }
 
     public String getPlayerName() {
         return this.playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
     public Token getPlayToken() {
         return this.playToken;
-    }
-
-    public void setPlayToken(Token playToken) {
-        this.playToken = playToken;
     }
 
     public Boolean getIsCurrentPlayer() {
         return isCurrentPlayer;
     }
 
-    public void setIsCurrentPlayer(Boolean currentPlayer) {
-        isCurrentPlayer = currentPlayer;
+    public void setIsCurrentPlayer(Boolean b) {
+        isCurrentPlayer = b;
     }
 
     //Equals and Hashcode
@@ -69,18 +58,5 @@ public abstract class Player {
         return playerName != null ? playerName.hashCode() : 0;
     }
 
-    //Methods
-    public abstract int playMove();
-
-    /*
-    savemethod(id, name, winningstreaks)
-    1
-    Arco
-     4 7 5 3 2 6 8
-     */
-
-    /*
-    loadmethod()
-     */
 
 }

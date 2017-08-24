@@ -5,15 +5,19 @@ package nl.arbro.tictactoe.model;
  */
 
 
-public class Board {
-    private int boardSize = 3;
-    private String[][] board = new String[boardSize][boardSize];
-    private boolean[] isFilledField = new boolean[9];
-    private boolean emptyFieldsLeft = true;
+abstract public class Board {
+    private int boardLength;
+    private int boardHeight;
+    private String[][] board;
+    private boolean hasEmptyFields = true;
+
 
     //Constructors
-    public Board(){
-        this.emptyBoard();
+    protected Board(int boardLength, int boardHeight){
+        this.boardLength = boardLength;
+        this.boardHeight = boardHeight;
+        this.board = new String[this.boardLength][this.boardHeight];
+        this.clearBoard();
     }
 
     //Getters & Setters
@@ -21,77 +25,41 @@ public class Board {
         return this.board;
     }
 
-    public boolean getIsFilledField(int fieldId){
-        return this.isFilledField[fieldId - 1];
+    protected int getBoardLength() {
+        return boardLength;
     }
 
-    public boolean getEmptyFieldsLeft() {
-        return emptyFieldsLeft;
+    public boolean hasEmptyFields() {
+        return hasEmptyFields;
     }
 
-    private void setIsFilledField(int fieldId){
-        this.isFilledField[fieldId - 1] = true;
-    }
-
-    private void setEmptyFieldsLeft(){
+    protected void setHasEmptyFields(){
         int countEmptyFields = 0;
-        for (boolean anIsFilledField : isFilledField) {
-            if (!anIsFilledField) {
-                countEmptyFields++;
+        for (int row = 0; row < getBoard().length; row++){
+            for (int col = 0; col < getBoard()[row].length; col++){
+                if (getBoard()[row][col] == null || getBoard()[row][col].isEmpty()){
+                    countEmptyFields++;
+                }
             }
         }
-        this.emptyFieldsLeft = (countEmptyFields > 0);
+
+        this.hasEmptyFields = (countEmptyFields > 0);
     }
 
     //Methods
-    public void emptyBoard(){
+
+
+    public void clearBoard(){
         for (String[] row : board){
             for (int i = 0; i < row.length; i++) {
                 row[i] = "";
             }
         }
-
-        isFilledField = new boolean[9];
     }
-    
 
-    public void fillBoard(int move, Token t){
-        String f = t.toString();
-        switch(move){
-            case 1:
-                this.board[0][0] = f;
-                break;
-            case 2:
-                this.board[0][1] = f;
-                break;
-            case 3:
-                this.board[0][2] = f;
-                break;
-            case 4:
-                this.board[1][0] = f;
-                break;
-            case 5:
-                this.board[1][1] = f;
-                break;
-            case 6:
-                this.board[1][2] = f;
-                break;
-            case 7:
-                this.board[2][0] = f;
-                break;
-            case 8:
-                this.board[2][1] = f;
-                break;
-            case 9:
-                this.board[2][2] = f;
-                break;
-            default:
-                break;
-        }
+    abstract public void fillBoard(int move, Token t);
 
-        this.setIsFilledField(move);
-        this.setEmptyFieldsLeft();
-    }
+    abstract public boolean isEmptyField(int fieldId);
 
 
 }

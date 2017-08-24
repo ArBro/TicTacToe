@@ -1,4 +1,4 @@
-package nl.arbro.tictactoe.errorhandlers;
+package nl.arbro.tictactoe.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
