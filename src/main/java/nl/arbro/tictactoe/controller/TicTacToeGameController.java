@@ -1,6 +1,5 @@
 package nl.arbro.tictactoe.controller;
 
-import nl.arbro.tictactoe.model.InvalidInputException;
 import nl.arbro.tictactoe.model.*;
 
 import java.util.EnumSet;
@@ -33,17 +32,14 @@ public class TicTacToeGameController {
 
     public void processMove(String moveInput) throws IllegalArgumentException {
         Player curPlayer = game.getPlayers().getCurrentPlayer();
-        int move = Integer.parseInt(moveInput); //Throws IllegalArgumentException
 
-        if (move <= 0 || move > 9) {
-            throw new InvalidInputException("Your input is not in the range 1-9");
-        }
+        BoardGameMoveHandler moveHandler = new BoardGameMoveHandler();
 
-        if (!game.getBoard().isEmptyField(move)){
-            throw new InvalidInputException("Please fill in a non-empty field");
-        }
+        BoardGameMove move = new BoardGameMove(moveInput, curPlayer.getPlayToken());
+        BoardGameMoveCommand moveCommand = new TicTacToeMoveCommand(move, game.getBoard());
 
-        game.getBoard().fillBoard(move, curPlayer.getPlayToken());
+        moveHandler.processMove(moveCommand);
+
         updateGameStatus();
         game.getPlayers().switchCurPlayer();
 

@@ -6,22 +6,43 @@ a {
     color: red;
 }
 
-table, tr, td {
+table.board, tr.board, td.board {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-tr {
+tr.board {
     width: 90px;
 }
 
-td {
+td.board {
     width: 30px;
     height: 30px;
     vertical-align: middle;
     text-align: center;
 }
 
-td:hover {
+td.board:hover {
     background-color: darkgray;
+}
+
+table.highScoreList, thead.highScoreList {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+thead.highScoreList {
+    font-weight: bold;
+}
+
+td.highScoreListName {
+    vertical-align: middle;
+    text-align: left;
+    width: 150px;
+}
+
+td.highScoreListScore {
+    vertical-align: middle;
+    text-align: right;
+    width: 30px;
 }
