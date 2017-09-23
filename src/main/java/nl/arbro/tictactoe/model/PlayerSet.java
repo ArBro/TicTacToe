@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Created by ArBro on 18-6-2017.
@@ -55,14 +56,26 @@ public class PlayerSet {
         }
 
         Random playerChooser = new Random();
-        getPlayerById(playerChooser.nextInt(1) + 1).setIsCurrentPlayer(true);
+        getPlayerById(playerChooser.nextInt(players.size())).setIsCurrentPlayer(true);
     }
 
-    public void switchCurPlayer(){
-        //This will not work if you have more than 2 players...
-        for (Player player : players) {
-            player.setIsCurrentPlayer(!player.getIsCurrentPlayer());
+    public void setNextPlayer(){
+        long curPlayerId = this.getCurrentPlayer().getPlayerId();
+        long nextPlayerId;
+        if (curPlayerId < players.size()){
+            nextPlayerId = curPlayerId + 1;
+        } else {
+            nextPlayerId = 1L;
         }
+
+        for (Player player : players) {
+            if ((player.getPlayerId() == nextPlayerId)) {
+                player.setIsCurrentPlayer(true);
+            } else {
+                player.setIsCurrentPlayer(false);
+            }
+        }
+
     }
 
 }

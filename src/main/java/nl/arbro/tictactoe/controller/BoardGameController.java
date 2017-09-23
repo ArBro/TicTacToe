@@ -2,7 +2,6 @@ package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.*;
 
-import java.util.EnumSet;
 import java.util.Iterator;
 
 /**
@@ -11,43 +10,45 @@ import java.util.Iterator;
  * Project: TicTacToe
  **/
 
-public class TicTacToeGameController {
+public class BoardGameController {
 
-    private BoardGame game = BoardGameFactory.getBoardGame(BoardGameType.TICTACTOE);
+    private final BoardGame game;
+
+    public BoardGameController(BoardGame game) {
+        this.game = game;
+    }
 
     //Getters & Setters (Getters mainly used by .jsp files
     public BoardGame getGame(){return this.game;}
 
-    //TicTacToeGameController Methods
-    public void initGame(String playerName1, String playerName2) throws Exception {
-        EnumSet<TicTacToeToken> tokenSet = EnumSet.allOf(TicTacToeToken.class);
-        Iterator<TicTacToeToken> it = tokenSet.iterator();
+    //BoardGameController Methods
+    public void initGame(String ... players) throws Exception {
+        Iterator<? extends Token> it = game.getTokenSet().iterator();
 
-        game.getPlayers().addPlayer(playerName1, it.next());
-        game.getPlayers().addPlayer(playerName2, it.next());
-        game.getPlayers().chooseFirstPlayer();
-        game.getBoard().clearBoard();
+        for (String player : players) {
+            game.getPlayers().addPlayer(player, it.next());
+        }
 
+        this.resetGame();
     }
 
     public void processMove(String moveInput) throws IllegalArgumentException {
         Player curPlayer = game.getPlayers().getCurrentPlayer();
-
         BoardGameMoveHandler moveHandler = new BoardGameMoveHandler();
 
         BoardGameMove move = new BoardGameMove(moveInput, curPlayer.getPlayToken());
-        BoardGameMoveCommand moveCommand = new TicTacToeMoveCommand(move, game.getBoard());
+        BoardGameMoveCommand moveCommand = game.createMoveCommand(move);
 
         moveHandler.processMove(moveCommand);
 
         updateGameStatus();
-        game.getPlayers().switchCurPlayer();
+        game.getPlayers().setNextPlayer();
 
     }
 
     public void updateGameStatus(){
         Player curPlayer = game.getPlayers().getCurrentPlayer();
-        if (game.hasWinner()) {
+        if (game.hasWinner(game.getBoard())) {
             game.setWinner(curPlayer);
             game.setGameStatus(GameStatus.WINNER);
         } else if (!game.getBoard().hasEmptyFields()) {
@@ -67,7 +68,7 @@ public class TicTacToeGameController {
     }
 
     public void resetGame(){
-        game.getBoard().clearBoard();
+        game.getBoard().resetBoard();
         game.getPlayers().chooseFirstPlayer();
         game.setGameStatus(GameStatus.PLAYING);
     }

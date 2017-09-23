@@ -14,13 +14,13 @@ import java.io.IOException;
  * Created by arbro on 10-7-17.
  */
 
-@SuppressWarnings("ALL")
+//@SuppressWarnings("ALL")
 @WebServlet (name = "TicTacToeServlet", urlPatterns = {"/game"})
 public class TicTacToeServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        TicTacToeGameController gameCtrl = (TicTacToeGameController) session.getAttribute("game");
+        BoardGameController gameCtrl = (BoardGameController) session.getAttribute("game");
         String nextMoveInput = request.getParameter("input");
 
         try {

@@ -1,5 +1,6 @@
 package nl.arbro.tictactoe.controller;
 
+import nl.arbro.tictactoe.model.ScoresFetcher;
 import nl.arbro.tictactoe.model.Score;
 import nl.arbro.tictactoe.model.ScoreList;
 
@@ -24,7 +25,7 @@ public class TicTacToeHighScoreServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Score> scores = ScoreList.getInstance().getScores();
+        List<Score> scores = ScoreList.getInstance().getScores(new ScoresFetcher());
         request.setAttribute("highScores", scores);
         request.getServletContext().getRequestDispatcher("/WEB-INF/highscores.jsp").forward(request, response);
     }

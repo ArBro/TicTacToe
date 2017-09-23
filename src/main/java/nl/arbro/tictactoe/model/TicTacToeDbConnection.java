@@ -37,7 +37,7 @@ public class TicTacToeDbConnection {
         Properties prop = new Properties();
         ClassLoader loader =  Thread.currentThread().getContextClassLoader();
 
-        try (InputStream input = loader.getResourceAsStream("postgres.properties")) {
+        try (InputStream input = loader.getResourceAsStream("tictactoedb.properties")) {
             prop.load(input);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

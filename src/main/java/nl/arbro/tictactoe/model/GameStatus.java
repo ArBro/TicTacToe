@@ -8,6 +8,7 @@ package nl.arbro.tictactoe.model;
 
 public enum GameStatus {
 
+    NOT_STARTED,
     PLAYING,
     WINNER,
     DRAW

@@ -1,6 +1,6 @@
 package nl.arbro.tictactoe.filters;
 
-import nl.arbro.tictactoe.controller.TicTacToeGameController;
+import nl.arbro.tictactoe.controller.BoardGameController;
 import nl.arbro.tictactoe.model.GameStatus;
 
 import javax.servlet.*;
@@ -28,14 +28,10 @@ public class HasActiveGameFilter implements Filter {
         HttpSession session = httpReq.getSession(true);
 
         if (session.getAttribute("game") != null){
-            TicTacToeGameController gameCtrl = (TicTacToeGameController) session.getAttribute("game");
+            BoardGameController gameCtrl = (BoardGameController) session.getAttribute("game");
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();
-            if (gameStatus != GameStatus.PLAYING) {
-                if (gameStatus != GameStatus.PLAYING){
-                    httpResp.sendRedirect("winner");
-                } else {
-                    chain.doFilter(req, resp);
-                }
+            if (gameStatus != GameStatus.PLAYING && gameStatus != GameStatus.NOT_STARTED) {
+                httpResp.sendRedirect("winner");
             } else {
                 chain.doFilter(req, resp);
             }

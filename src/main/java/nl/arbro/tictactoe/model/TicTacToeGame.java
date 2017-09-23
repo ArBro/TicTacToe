@@ -1,5 +1,6 @@
 package nl.arbro.tictactoe.model;
 
+import java.util.EnumSet;
 import java.util.regex.Pattern;
 
 /**
@@ -14,13 +15,22 @@ public class TicTacToeGame extends BoardGame {
     public void createGame() {
         setBoard(BoardFactory.getBoard(BoardGameType.TICTACTOE));
         setPlayers(new PlayerSet());
-        setGameStatus(GameStatus.PLAYING);
+        setGameStatus(GameStatus.NOT_STARTED);
+
+        EnumSet<? extends Token> tokens = EnumSet.allOf(TicTacToeToken.class);
+        setTokenSet(tokens);
     }
 
     @Override
-    public boolean hasWinner() {
+    public BoardGameMoveCommand createMoveCommand(BoardGameMove move) {
+        TicTacToeMoveCommand moveCommand = new TicTacToeMoveCommand(move, this.getBoard());
+        return moveCommand;
+    }
+
+    @Override
+    public boolean hasWinner(Board b) {
+        String[][] board = b.getBoard();
         final Pattern THREE_IN_A_ROW = Pattern.compile("(\\w+)(?:\\1){2}");
-        String [][] board = getBoard().getBoard();
 
         // Check Rows
         for(String[] row : board){

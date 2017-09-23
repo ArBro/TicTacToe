@@ -17,7 +17,7 @@ abstract public class Board {
         this.boardLength = boardLength;
         this.boardHeight = boardHeight;
         this.board = new String[this.boardLength][this.boardHeight];
-        this.clearBoard();
+        this.resetBoard();
     }
 
     //Getters & Setters
@@ -49,7 +49,7 @@ abstract public class Board {
     //Methods
 
 
-    public void clearBoard(){
+    public void resetBoard(){
         for (String[] row : board){
             for (int i = 0; i < row.length; i++) {
                 row[i] = "";

@@ -1,6 +1,6 @@
 package nl.arbro.tictactoe.filters;
 
-import nl.arbro.tictactoe.controller.TicTacToeGameController;
+import nl.arbro.tictactoe.controller.BoardGameController;
 import nl.arbro.tictactoe.model.GameStatus;
 
 import javax.servlet.*;
@@ -25,10 +25,10 @@ public class HasWinnerFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) req;
         HttpServletResponse httpResp = (HttpServletResponse) resp;
         HttpSession session = httpReq.getSession(true);
-        TicTacToeGameController gameCtrl;
+        BoardGameController gameCtrl;
 
         if (session.getAttribute("game") != null) {
-            gameCtrl = (TicTacToeGameController) session.getAttribute("game");
+            gameCtrl = (BoardGameController) session.getAttribute("game");
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();
 
             if (gameStatus != GameStatus.PLAYING) {
