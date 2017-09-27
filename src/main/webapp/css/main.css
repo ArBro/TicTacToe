@@ -1,0 +1,50 @@
+a {
+    text-decoration: none;
+}
+
+.nav.navbartop {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid lightgray;
+}
+
+.error {
+    color: red;
+}
+
+table.tictactoeBoard, tr.tictactoeBoard, td.tictactoeBoard {
+    border: 1px solid dimgrey;
+    border-collapse: collapse;
+}
+
+tr.tictactoeBoard {
+    width: 150px;
+}
+
+td.tictactoeBoard {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.tictactoeboardfield {
+    padding: 0px 0px 0px 0px;
+    border: none;
+    background-color: Transparent;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+tictactoeboardfield:hover {
+    background-color: lightgray;
+}
+
+td.tictactoeBoard:hover {
+    background-color: lightgray;
+}
+
+thead.highScoreList {
+    font-weight: bold;
+}
