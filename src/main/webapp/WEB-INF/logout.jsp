@@ -1,33 +1,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  Created by IntelliJ IDEA.
   User: arbro
-  Date: 14-7-17
-  Time: 20:25
-  To change this template use File | Settings | File Templates.
+  Date: 25-9-17
+  Time: 16:32
+  Project: tictactoe
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<!DOCTYPE html>
 <html>
 <head>
-    <title>TicTacToe - A game full of surprises</title>
+    <title>Login Successful</title>
     <link href="css/main.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.css" rel="stylesheet" type = "text/css">
     <script src="lib/js/jquery-3.2.1.min.js"></script>
     <script src="lib/js/popper.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 
     <%@include file="directives/_navbar.html"%>
 
     <div class="container">
-        <%@include file="directives/start.jsp"%>
+        <div class="row justify-content-center">
+            <p class="col-sm-12" align="center">You are successfully logged out!</p>
+        </div>
     </div>
-
-
 
 </body>
 </html>

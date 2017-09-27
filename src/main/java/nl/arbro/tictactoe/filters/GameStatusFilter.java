@@ -12,36 +12,32 @@ import java.io.IOException;
 
 /**
  * Created By: arbro
- * Date: 31-7-17 - 12:05
+ * Date: 26-7-17 - 14:52
  * Project: tictactoe
  **/
 
-@WebFilter(filterName = "HasWinnerFilter", urlPatterns = {"/winner"})
-public class HasWinnerFilter implements Filter {
+@WebFilter(filterName = "GameStatusFilter", urlPatterns = {"/game", "/tictactoe"})
+public class GameStatusFilter implements Filter {
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+
         HttpServletRequest httpReq = (HttpServletRequest) req;
         HttpServletResponse httpResp = (HttpServletResponse) resp;
-        HttpSession session = httpReq.getSession(true);
-        BoardGameController gameCtrl;
+        HttpSession session = httpReq.getSession(false);
 
-        if (session.getAttribute("game") != null) {
-            gameCtrl = (BoardGameController) session.getAttribute("game");
+        BoardGameController gameCtrl = (BoardGameController) session.getAttribute("game");
+
+        if (gameCtrl != null){
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();
-
-            if (gameStatus != GameStatus.PLAYING) {
-                if (gameStatus != GameStatus.PLAYING) {
-                    chain.doFilter(req, resp);
-                } else {
-                    httpResp.sendRedirect("game");
-                }
+            if (gameStatus == GameStatus.WINNER || gameStatus == GameStatus.DRAW) {
+                httpReq.getServletContext().getRequestDispatcher("/WEB-INF/winner.jsp").forward(httpReq, httpResp);
             } else {
-                httpResp.sendRedirect("game");
+                chain.doFilter(req, resp);
             }
         } else {
-            httpResp.sendRedirect("tictactoe");
+            httpReq.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(httpReq, httpResp);
         }
     }
 

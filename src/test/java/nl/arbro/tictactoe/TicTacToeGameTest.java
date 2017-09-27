@@ -1,5 +1,6 @@
 package nl.arbro.tictactoe;
 
+import nl.arbro.tictactoe.controller.BoardGameController;
 import nl.arbro.tictactoe.model.*;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -114,6 +116,5 @@ public class TicTacToeGameTest {
 
         MOVE_HANDLER.processMove(moveCommand);
     }
-
 
 }

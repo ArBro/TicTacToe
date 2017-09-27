@@ -11,7 +11,11 @@ public interface ScoreComparator {
 
     Comparator<Score> BY_SCORE = (s1, s2) -> {
         if (s1.getScore() == s2.getScore()) {
-            return s1.getPlayerName().compareTo(s2.getPlayerName());
+            if (s1.getPlayerName().equals(s2.getPlayerName())) {
+                return s1.getAchievedDate().compareTo(s2.getAchievedDate());
+            } else {
+                return s1.getPlayerName().compareTo(s2.getPlayerName());
+            }
         } else {
             return s2.getScore() - s1.getScore();
         }
@@ -19,7 +23,11 @@ public interface ScoreComparator {
 
     Comparator<Score> BY_NAME = (s1, s2) -> {
         if (s1.getPlayerName().equals(s2.getPlayerName())) {
-            return s2.getScore() - s1.getScore();
+            if (s2.getScore() == s1.getScore()) {
+                return s1.getAchievedDate().compareTo(s2.getAchievedDate());
+            } else {
+                return s2.getScore() - s1.getScore();
+            }
         } else {
             return s1.getPlayerName().compareTo(s2.getPlayerName());
         }

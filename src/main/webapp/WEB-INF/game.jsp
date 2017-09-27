@@ -4,21 +4,27 @@
 <html>
 <head>
     <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet" type = "text/css">
+    <script src="lib/js/jquery-3.2.1.min.js"></script>
+    <script src="lib/js/popper.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <%@include file="directives/_navbar.html"%>
-    <hr/>
-
-    <p><h3>${game.getGame().getPlayers().getPlayerById(1).getPlayerName()} (${game.getGame().getPlayers().getPlayerById(1).getPlayToken()}) vs. ${game.getGame().getPlayers().getPlayerById(2).getPlayerName()} (${game.getGame().getPlayers().getPlayerById(2).getPlayToken()})</h3></p>
-    <%@include file="directives/board.jsp"%>
-
-    <p></p>
-    <p>${game.getGame().getPlayers().getCurrentPlayer().getPlayerName()} it is your turn!</p>
-    <form method="post">
-        Input: <input type="text" name="input" /> <input type="submit" value="Play move"/>
-    </form>
-    <p class="error">${errorMsg}</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-12" align="center">
+                <h4>${game.getGame().getPlayers().getCurrentPlayer().getPlayerName()} it is your turn!</h4>
+            </div>
+            <div class="col-sm-12" align="center">
+                <%@include file="directives/interactiveboard.jsp"%>
+            </div>
+            <c:forEach var="message" items="${messages}">
+                <span class="error">${message.value}</span><br/>
+            </c:forEach>
+        </div>
+    </div>
 
 </body>
 

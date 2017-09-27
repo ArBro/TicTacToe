@@ -1,26 +1,20 @@
 package nl.arbro.tictactoe.model;
 
+import java.time.LocalDate;
+
 /**
  * Created by arbro on 28-6-17.
  */
 public class Score {
 
-    private long id;
     private String playerName;
     private int score;
+    private LocalDate achievedDate;
 
-    public Score(long id, String playerName, int score) {
-        this(playerName, score);
-        this.id = id;
-    }
-
-    private Score(String name, int score) {
+    public Score(String name, int score, LocalDate achievedDate) {
         this.playerName = name;
         this.score = score;
-    }
-
-    public long getId() {
-        return id;
+        this.achievedDate = achievedDate;
     }
 
     public String getPlayerName() {
@@ -31,8 +25,12 @@ public class Score {
         return score;
     }
 
+    public LocalDate getAchievedDate() {
+        return achievedDate;
+    }
+
     public String toString(){
-        return "[id: " + id + ", playerName: " + playerName + ", score: " + score + "]";
+        return "[playerName: " + playerName + ", score: " + score + "achievedDate: " + achievedDate.toString() + "]";
     }
 
 }

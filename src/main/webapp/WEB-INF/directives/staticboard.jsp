@@ -1,8 +1,8 @@
-<table class="board">
+<table class="tictactoeBoard">
     <c:forEach var="row" items="${game.getGame().getBoard().getBoard()}">
-        <tr class="board">
+        <tr class="tictactoeBoard">
             <c:forEach var="col" items="${row}">
-                <td class="board">${col}</td>
+                <td class="tictactoeBoard">${col}</td>
             </c:forEach>
         </tr>
     </c:forEach>

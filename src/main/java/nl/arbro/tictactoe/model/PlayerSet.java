@@ -24,7 +24,7 @@ public class PlayerSet {
             }
         }
 
-        throw new RuntimeException("PlayerId not found.");
+        throw new RuntimeException("PlayerId not found");
 
     }
 
@@ -41,10 +41,10 @@ public class PlayerSet {
         throw new RuntimeException("No current player found.");
     }
 
-    public void addPlayer(String name, Token token) throws Exception {
+    public void addPlayer(String name, Token token) throws IllegalArgumentException {
 
         while (!players.add(new HumanPlayer(name, token))){
-            throw new Exception("Duplicate player names");
+            throw new IllegalArgumentException("Player name already exists, duplicate player name submitted");
         }
 
         return;
@@ -56,26 +56,26 @@ public class PlayerSet {
         }
 
         Random playerChooser = new Random();
-        getPlayerById(playerChooser.nextInt(players.size())).setIsCurrentPlayer(true);
+        int randomNumber = playerChooser.nextInt(players.size());
+        Object[] arr = players.toArray();
+
+        long id = ((Player) arr[randomNumber]).getPlayerId();
+        getPlayerById(id).setIsCurrentPlayer(true);
     }
 
     public void setNextPlayer(){
-        long curPlayerId = this.getCurrentPlayer().getPlayerId();
-        long nextPlayerId;
-        if (curPlayerId < players.size()){
-            nextPlayerId = curPlayerId + 1;
-        } else {
-            nextPlayerId = 1L;
-        }
-
-        for (Player player : players) {
-            if ((player.getPlayerId() == nextPlayerId)) {
-                player.setIsCurrentPlayer(true);
+        Iterator<Player> it = players.iterator();
+        while (it.hasNext()) {
+            Player p = it.next();
+            if (p.getIsCurrentPlayer() && it.hasNext()){
+                p.setIsCurrentPlayer(false);
+                it.next().setIsCurrentPlayer(true);
             } else {
-                player.setIsCurrentPlayer(false);
+                p.setIsCurrentPlayer(false);
+                Iterator<Player> itnew = players.iterator();
+                itnew.next().setIsCurrentPlayer(true);
             }
         }
 
     }
-
 }

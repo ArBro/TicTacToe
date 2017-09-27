@@ -2,47 +2,49 @@ a {
     text-decoration: none;
 }
 
+.nav.navbartop {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid lightgray;
+}
+
 .error {
     color: red;
 }
 
-table.board, tr.board, td.board {
-    border: 1px solid black;
+table.tictactoeBoard, tr.tictactoeBoard, td.tictactoeBoard {
+    border: 1px solid dimgrey;
     border-collapse: collapse;
 }
 
-tr.board {
-    width: 90px;
+tr.tictactoeBoard {
+    width: 150px;
 }
 
-td.board {
-    width: 30px;
-    height: 30px;
+td.tictactoeBoard {
+    width: 50px;
+    height: 50px;
     vertical-align: middle;
     text-align: center;
 }
 
-td.board:hover {
-    background-color: darkgray;
+.tictactoeboardfield {
+    padding: 0px 0px 0px 0px;
+    border: none;
+    background-color: Transparent;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
 }
 
-table.highScoreList, thead.highScoreList {
-    border: 1px solid black;
-    border-collapse: collapse;
+tictactoeboardfield:hover {
+    background-color: lightgray;
+}
+
+td.tictactoeBoard:hover {
+    background-color: lightgray;
 }
 
 thead.highScoreList {
     font-weight: bold;
-}
-
-td.highScoreListName {
-    vertical-align: middle;
-    text-align: left;
-    width: 150px;
-}
-
-td.highScoreListScore {
-    vertical-align: middle;
-    text-align: right;
-    width: 30px;
 }

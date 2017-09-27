@@ -2,6 +2,7 @@ package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.BoardGameFactory;
 import nl.arbro.tictactoe.model.BoardGameType;
+import nl.arbro.tictactoe.model.InvalidInputException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created By: arbro
@@ -21,6 +24,9 @@ import java.io.IOException;
 public class TicTacToeInitGameServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String, String> messages = new HashMap<>();
+        request.setAttribute("messages", messages);
+
         HttpSession session = request.getSession();
         String playerName1 = request.getParameter("player1");
         String playerName2 = request.getParameter("player2");
@@ -31,9 +37,9 @@ public class TicTacToeInitGameServlet extends HttpServlet {
             gameCtrl.initGame(playerName1, playerName2);
             session.setAttribute("game", gameCtrl);
             response.sendRedirect("game");
-        } catch (Exception e) {
-            session.setAttribute("errorMsg", "Please fill in different player names");
-            response.sendRedirect("tictactoe");
+        } catch (IllegalArgumentException e) {
+            messages.put("names", "Please fill in different player names");
+            request.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(request, response);
         }
 
     }

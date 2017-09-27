@@ -6,6 +6,7 @@ import nl.arbro.tictactoe.model.ScoresFetcher;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class ScoreListTest {
         target = ScoreList.getInstance();
 
         exampleScores = new ArrayList<>();
-        exampleScores.add(new Score(1L, "TestPlayer", 12));
-        exampleScores.add(new Score(2L, "TestPlayer", 15));
-        exampleScores.add(new Score(3L, "TestPlayer", 10));
-        exampleScores.add(new Score(2L, "TestPlayer", 9));
+        exampleScores.add(new Score("TestPlayer", 12, LocalDate.now()));
+        exampleScores.add(new Score("TestPlayer", 15, LocalDate.now()));
+        exampleScores.add(new Score("TestPlayer", 10, LocalDate.now()));
+        exampleScores.add(new Score("TestPlayer", 9, LocalDate.now()));
 
         mockFetcher = mock(ScoresFetcher.class);
         when(mockFetcher.fetchScores()).thenReturn(exampleScores);

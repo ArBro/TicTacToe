@@ -2,12 +2,14 @@ package nl.arbro.tictactoe.model;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by arbro on 28-6-17.
  */
-public class ScoreList implements ScoreComparator {
+
+public class ScoreList {
 
     private static ScoreList instance = null;
     private static List<Score> scores = new ArrayList<>();
@@ -30,6 +32,12 @@ public class ScoreList implements ScoreComparator {
         return instance;
     }
 
+    public List<Score> getScores(ScoresFetcher fetcher, Comparator<Score> order) {
+        getScores(fetcher);
+        scores.sort(order);
+        return scores;
+    }
+
     public List<Score> getScores(ScoresFetcher fetcher) {
         scores.clear();
 
@@ -39,5 +47,4 @@ public class ScoreList implements ScoreComparator {
 
         return scores;
     }
-
 }

@@ -22,14 +22,14 @@ public class BoardGameController {
     public BoardGame getGame(){return this.game;}
 
     //BoardGameController Methods
-    public void initGame(String ... players) throws Exception {
+    public void initGame(String ... players) throws IllegalArgumentException {
         Iterator<? extends Token> it = game.getTokenSet().iterator();
 
         for (String player : players) {
             game.getPlayers().addPlayer(player, it.next());
         }
 
-        this.resetGame();
+        resetGame();
     }
 
     public void processMove(String moveInput) throws IllegalArgumentException {

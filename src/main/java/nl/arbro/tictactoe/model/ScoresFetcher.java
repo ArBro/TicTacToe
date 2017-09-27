@@ -1,12 +1,6 @@
 package nl.arbro.tictactoe.model;
 
-import nl.arbro.tictactoe.model.Score;
-import nl.arbro.tictactoe.model.TicTacToeDbConnection;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,29 +14,35 @@ public class ScoresFetcher {
 
     public List<Score> fetchScores() {
 
-        List<Score> result = new ArrayList<>();
+        List<Score> fetchedScores = new ArrayList<>();
 
         TicTacToeDbConnection dbConn = TicTacToeDbConnection.getInstance();
+
+        StringBuilder query = new StringBuilder();
+        query.append("select hs.score, u.username, hs.achieved_date ");
+        query.append("from highscores as hs ");
+        query.append("left join users as u on ");
+        query.append("hs.playerid = u.userid");
 
         try (
                 Connection conn = dbConn.getConnection();
                 Statement stmt = conn.createStatement();
-                ResultSet results = stmt.executeQuery("select * from highscores");
+                ResultSet results = stmt.executeQuery(query.toString())
         ){
             while (results.next()){
                 Score score = new Score(
-                        results.getLong("equip_id")
-                        ,results.getString("name")
+                        results.getString("username")
                         ,results.getInt("score")
+                        ,results.getDate("achieved_date").toLocalDate()
                 );
-                result.add(score);
+                fetchedScores.add(score);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return fetchedScores;
 
     }
 }
