@@ -10,18 +10,18 @@ import java.util.Iterator;
  * Project: TicTacToe
  **/
 
-public class BoardGameController {
+public class BoardGameService {
 
     private final BoardGame game;
 
-    public BoardGameController(BoardGame game) {
+    public BoardGameService(BoardGame game) {
         this.game = game;
     }
 
     //Getters & Setters (Getters mainly used by .jsp files
     public BoardGame getGame(){return this.game;}
 
-    //BoardGameController Methods
+    //BoardGameService Methods
     public void initGame(String ... players) throws IllegalArgumentException {
         Iterator<? extends Token> it = game.getTokenSet().iterator();
 

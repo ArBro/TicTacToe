@@ -1,6 +1,6 @@
 package nl.arbro.tictactoe.filters;
 
-import nl.arbro.tictactoe.controller.BoardGameController;
+import nl.arbro.tictactoe.controller.BoardGameService;
 import nl.arbro.tictactoe.model.GameStatus;
 
 import javax.servlet.*;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebFilter(filterName = "GameStatusFilter", urlPatterns = {"/game", "/tictactoe"})
+@WebFilter(filterName = "GameStatusFilter", urlPatterns = {"/game.html", "/initgame.html"})
 public class GameStatusFilter implements Filter {
     public void destroy() {
     }
@@ -27,7 +27,7 @@ public class GameStatusFilter implements Filter {
         HttpServletResponse httpResp = (HttpServletResponse) resp;
         HttpSession session = httpReq.getSession();
 
-        BoardGameController gameCtrl = (BoardGameController) session.getAttribute("game");
+        BoardGameService gameCtrl = (BoardGameService) session.getAttribute("game");
 
         if (gameCtrl != null){
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();

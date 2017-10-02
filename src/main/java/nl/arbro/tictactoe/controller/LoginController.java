@@ -3,6 +3,11 @@ package nl.arbro.tictactoe.controller;
 import nl.arbro.tictactoe.model.LoginHandler;
 import nl.arbro.tictactoe.model.User;
 import nl.arbro.tictactoe.model.UserRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +22,11 @@ import java.util.Map;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "TicTacToeLoginServlet", urlPatterns = {"/login"})
-public class TicTacToeLoginServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@Controller
+public class LoginController {
+
+    @PostMapping (value = "/login")
+    public String processLogin (HttpServletRequest request){
 
         Map<String, String> messages = new HashMap<>();
         request.setAttribute("messages", messages);
@@ -47,26 +54,27 @@ public class TicTacToeLoginServlet extends HttpServlet {
 
                 request.getSession().setAttribute("loggedInUsername", user.getUsername());
                 request.getSession().setAttribute("loggedInUserRole", user.getUserRole());
-                request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/loginsuccess.jsp").forward(request, response);
+                return "loginsuccess";
             } else {
                 messages.put("loginError", "Username and password do not match.");
-                request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                return "login";
             }
         } else {
-            request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+            return "login";
         }
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @GetMapping (value = "/login")
+    public String showLoginPage(HttpServletRequest request) {
         String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
         if (loggedInUsername == null) {
-            request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+            return "login";
         } else {
             if (new UserRepository().getUserByName(loggedInUsername) == null) {
-                request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                return "login";
             } else {
-                request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/loginsuccess.jsp").forward(request, response);
+                return "loginsuccess";
             }
         }
 

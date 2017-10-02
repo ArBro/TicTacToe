@@ -2,6 +2,9 @@ package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.User;
 import nl.arbro.tictactoe.model.UserRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,14 +20,11 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "TicTacToeLogoutServlet", urlPatterns = {"/logout"})
-public class TicTacToeLogoutServlet extends HttpServlet {
+@Controller
+public class LogoutController {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @PostMapping(value = "logout")
+    public String processLogout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("loggedInUsername");
 
@@ -36,6 +36,6 @@ public class TicTacToeLogoutServlet extends HttpServlet {
         session.removeAttribute("loggedInUsername");
         session.removeAttribute("loggedInUserRole");
 
-        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/logout.jsp").forward(request, response);
+        return "logout";
     }
 }

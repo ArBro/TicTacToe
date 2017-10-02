@@ -3,7 +3,7 @@
     <p class="col-sm-12" align="center">Please enter your names</p>
 
     <div class="col-sm-4">
-        <form method="post" action="initgame">
+        <form method="post" action="<c:url value="tictactoe.html"/>">
             <div class="form-group">
                 <input class="form-control" type="text" name="player1" placeholder="Name Player 1" /><br>
                 <input class="form-control" type="text" name="player2" placeholder="Name Player 2" /><br>

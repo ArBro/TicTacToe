@@ -3,6 +3,9 @@ package nl.arbro.tictactoe.controller;
 import nl.arbro.tictactoe.model.ScoreRepository;
 import nl.arbro.tictactoe.model.Score;
 import nl.arbro.tictactoe.model.ScoreList;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,15 +23,15 @@ import static nl.arbro.tictactoe.model.ScoreComparator.BY_SCORE;
  * Project: tictactoe
  **/
 
-@WebServlet(name = "TicTacToeHighScoreServlet", urlPatterns = {"/highscores"})
-public class TicTacToeHighScoreServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@Controller
+public class HighScoreController {
 
-    }
+    @RequestMapping(value = {"/highscores"})
+    public String showScores(Model model) {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final List<Score> scores = ScoreList.getInstance().getScores(new ScoreRepository(), BY_SCORE);
-        request.setAttribute("highScores", scores);
-        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/highscores.jsp").forward(request, response);
+        model.addAttribute("highScores", scores);
+        return "highscores";
+
     }
 }

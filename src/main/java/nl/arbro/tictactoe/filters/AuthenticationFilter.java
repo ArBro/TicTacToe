@@ -13,7 +13,7 @@ import java.io.IOException;
  * Project: tictactoe
  **/
 
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/highscores", "/loginsuccess"})
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/highscores.html", "/loginsuccess.html"})
 public class AuthenticationFilter implements Filter {
     public void destroy() {
     }
@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) request;
         HttpServletResponse httpResp = (HttpServletResponse) response;
         HttpSession session = httpReq.getSession();
-        String loginURI = httpReq.getContextPath() + "/login";
+        String loginURI = httpReq.getContextPath() + "/login.html";
 
         boolean loggedIn = session != null && session.getAttribute("loggedInUsername") != null;
         boolean loginRequest = httpReq.getRequestURI().equals(loginURI);

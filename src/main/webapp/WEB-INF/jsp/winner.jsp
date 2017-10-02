@@ -30,8 +30,8 @@
                 <br>
             </div>
             <div class="col-sm-12" align="center">
-                <a class="col-sm-1" href="initgame"><input class="btn btn-primary" type="button" value="New Game"></a>
-                <a class="col-sm-1" href="exitgame"><input class="btn" type="button" value="Exit Game"></a>
+                <a class="col-sm-1" href="resetgame.html"><input class="btn btn-primary" type="button" value="New Game"></a>
+                <a class="col-sm-1" href="exitgame.html"><input class="btn" type="button" value="Exit Game"></a>
             </div>
         </div>
     </div>

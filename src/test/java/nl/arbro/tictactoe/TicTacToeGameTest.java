@@ -1,10 +1,6 @@
 package nl.arbro.tictactoe;
 
-import nl.arbro.tictactoe.controller.BoardGameController;
 import nl.arbro.tictactoe.model.*;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
