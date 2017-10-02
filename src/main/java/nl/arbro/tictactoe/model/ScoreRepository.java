@@ -10,9 +10,9 @@ import java.util.List;
  * Project: tictactoe
  **/
 
-public class ScoresFetcher {
+public class ScoreRepository {
 
-    public List<Score> fetchScores() {
+    public List<Score> getAllScores() {
 
         List<Score> fetchedScores = new ArrayList<>();
 

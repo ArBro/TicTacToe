@@ -1,9 +1,5 @@
 package nl.arbro.tictactoe.filters;
 
-import nl.arbro.tictactoe.model.LoginHandler;
-import nl.arbro.tictactoe.model.User;
-import nl.arbro.tictactoe.model.UserFetcher;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +24,8 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = httpReq.getSession();
         String loginURI = httpReq.getContextPath() + "/login";
 
-        boolean loggedIn = session != null && session.getAttribute("loggedInUser") != null;
-        boolean loginRequest =  httpReq.getRequestURI().equals(loginURI);
+        boolean loggedIn = session != null && session.getAttribute("loggedInUsername") != null;
+        boolean loginRequest = httpReq.getRequestURI().equals(loginURI);
 
         if (loggedIn || loginRequest){
             chain.doFilter(request, response);

@@ -31,7 +31,7 @@ public class ExitGameServlet extends HttpServlet {
 
             if (gameStatus == GameStatus.WINNER || gameStatus == GameStatus.DRAW) {
                 request.getSession().removeAttribute("game");
-                request.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(request, response);
+                response.sendRedirect("tictactoe");
 
             } else {
                 response.sendRedirect("game");

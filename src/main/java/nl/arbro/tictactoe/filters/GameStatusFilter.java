@@ -25,19 +25,19 @@ public class GameStatusFilter implements Filter {
 
         HttpServletRequest httpReq = (HttpServletRequest) req;
         HttpServletResponse httpResp = (HttpServletResponse) resp;
-        HttpSession session = httpReq.getSession(false);
+        HttpSession session = httpReq.getSession();
 
         BoardGameController gameCtrl = (BoardGameController) session.getAttribute("game");
 
         if (gameCtrl != null){
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();
             if (gameStatus == GameStatus.WINNER || gameStatus == GameStatus.DRAW) {
-                httpReq.getServletContext().getRequestDispatcher("/WEB-INF/winner.jsp").forward(httpReq, httpResp);
+                httpReq.getServletContext().getRequestDispatcher("/WEB-INF/jsp/winner.jsp").forward(httpReq, httpResp);
             } else {
                 chain.doFilter(req, resp);
             }
         } else {
-            httpReq.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(httpReq, httpResp);
+            httpReq.getServletContext().getRequestDispatcher("/WEB-INF/jsp/tictactoe.jsp").forward(httpReq, httpResp);
         }
     }
 

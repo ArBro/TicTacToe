@@ -2,7 +2,7 @@ package nl.arbro.tictactoe;
 
 import nl.arbro.tictactoe.model.Score;
 import nl.arbro.tictactoe.model.ScoreList;
-import nl.arbro.tictactoe.model.ScoresFetcher;
+import nl.arbro.tictactoe.model.ScoreRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class ScoreListTest {
 
     private List<Score> exampleScores;
     private ScoreList target = null;
-    private ScoresFetcher mockFetcher;
+    private ScoreRepository mockFetcher;
 
     @Before
     public void setup() {
@@ -36,8 +36,8 @@ public class ScoreListTest {
         exampleScores.add(new Score("TestPlayer", 10, LocalDate.now()));
         exampleScores.add(new Score("TestPlayer", 9, LocalDate.now()));
 
-        mockFetcher = mock(ScoresFetcher.class);
-        when(mockFetcher.fetchScores()).thenReturn(exampleScores);
+        mockFetcher = mock(ScoreRepository.class);
+        when(mockFetcher.getAllScores()).thenReturn(exampleScores);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ScoreListTest {
         List<Score> resultList = target.getScores(mockFetcher);
 
         //then
-        verify(mockFetcher).fetchScores();
+        verify(mockFetcher).getAllScores();
         assertEquals(exampleScores, resultList);
     }
 
@@ -65,7 +65,7 @@ public class ScoreListTest {
 
     @Test
     public void test_fetchScores_IsNotNull () {
-        assertNotNull(mockFetcher.fetchScores());
+        assertNotNull(mockFetcher.getAllScores());
     }
 
 }

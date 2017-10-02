@@ -1,7 +1,5 @@
 package nl.arbro.tictactoe.model;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 /**
  * Created By: arbro
  * Date: 25-9-17 - 14:05
@@ -11,12 +9,16 @@ import org.mindrot.jbcrypt.BCrypt;
 public class User {
 
     private String username;
-    private String email;
+    private String password;
+    //private String email;
     private UserRoles userRole;
+    private boolean isLoggedIn = false;
 
-    public User(String userName, UserRoles role){
+    public User(String userName, String password, UserRoles role, boolean isLoggedIn){
         this.username = userName;
+        this.password = password;
         this.userRole = role;
+        this.isLoggedIn = isLoggedIn;
     }
 
     public String getUsername() {
@@ -25,5 +27,17 @@ public class User {
 
     public UserRoles getUserRole() {
         return userRole;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 }

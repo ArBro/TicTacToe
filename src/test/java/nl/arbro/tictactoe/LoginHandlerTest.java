@@ -2,7 +2,7 @@ package nl.arbro.tictactoe;
 
 import nl.arbro.tictactoe.model.LoginHandler;
 import nl.arbro.tictactoe.model.User;
-import nl.arbro.tictactoe.model.UserFetcher;
+import nl.arbro.tictactoe.model.UserRepository;
 import nl.arbro.tictactoe.model.UserRoles;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,32 +44,38 @@ public class LoginHandlerTest {
 
     @Test
     public void test_login_sucess(){
+        User userFixture = new User(
+                prop.getProperty("username"),
+                prop.getProperty("passwordHash"),
+                UserRoles.valueOf(prop.getProperty("userRole")),
+                Boolean.valueOf(prop.getProperty("isLoggedIn"))
+        );
 
-        String username = prop.getProperty("username");
-        String password = prop.getProperty("passwordHash");
-
-        UserFetcher mockFetcher = mock(UserFetcher.class);
-        when(mockFetcher.getPassword(anyString())).thenReturn(password);
+        UserRepository mockFetcher = mock(UserRepository.class);
+        when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
 
         target = new LoginHandler(mockFetcher);
 
-        Boolean result = target.processLogin(username, prop.getProperty("password"));
+        Boolean result = target.processLogin(prop.getProperty("username"), prop.getProperty("password"));
         assertEquals(true, result);
 
     }
 
     @Test
     public void test_login_fail(){
+        User userFixture = new User(
+                prop.getProperty("username"),
+                prop.getProperty("passwordHash"),
+                UserRoles.valueOf(prop.getProperty("userRole")),
+                Boolean.valueOf(prop.getProperty("isLoggedIn"))
+        );
 
-        String username = prop.getProperty("username");
-        String password = prop.getProperty("passwordHash");
-
-        UserFetcher mockFetcher = mock(UserFetcher.class);
-        when(mockFetcher.getPassword(anyString())).thenReturn(password);
+        UserRepository mockFetcher = mock(UserRepository.class);
+        when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
 
         target = new LoginHandler(mockFetcher);
 
-        Boolean result = target.processLogin(username, "wrongPass");
+        Boolean result = target.processLogin(prop.getProperty("username"), "wrongpass");
         assertEquals(false, result);
 
     }

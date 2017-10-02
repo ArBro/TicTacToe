@@ -39,7 +39,7 @@ public class TicTacToeInitGameServlet extends HttpServlet {
             response.sendRedirect("game");
         } catch (IllegalArgumentException e) {
             messages.put("names", "Please fill in different player names");
-            request.getServletContext().getRequestDispatcher("/WEB-INF/tictactoehome.jsp").forward(request, response);
+            request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/tictactoe.jsp").forward(request, response);
         }
 
     }

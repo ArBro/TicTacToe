@@ -32,16 +32,16 @@ public class ScoreList {
         return instance;
     }
 
-    public List<Score> getScores(ScoresFetcher fetcher, Comparator<Score> order) {
+    public List<Score> getScores(ScoreRepository fetcher, Comparator<Score> order) {
         getScores(fetcher);
         scores.sort(order);
         return scores;
     }
 
-    public List<Score> getScores(ScoresFetcher fetcher) {
+    public List<Score> getScores(ScoreRepository fetcher) {
         scores.clear();
 
-        for (Score score : fetcher.fetchScores() ) {
+        for (Score score : fetcher.getAllScores() ) {
             addScore(score);
         }
 

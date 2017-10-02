@@ -1,5 +1,7 @@
 package nl.arbro.tictactoe.model;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +13,9 @@ import java.sql.SQLException;
  * Project: tictactoe
  **/
 
-public class UserFetcher {
+@Repository
+@SuppressWarnings("Duplicates")
+public class UserRepository {
 
     public User getUserByName(String username) {
         TicTacToeDbConnection dbConn = TicTacToeDbConnection.getInstance();
@@ -20,7 +24,7 @@ public class UserFetcher {
         try( Connection conn = dbConn.getConnection();
              PreparedStatement prepStatement =
                      conn.prepareStatement(
-                             "select u.username, r.rolename from users u " +
+                             "select u.username, u.password, r.rolename, u.isloggedin from users u " +
                              "left join roles r on u.role = r.roleid " +
                              "where u.username = ?");
         ){
@@ -29,7 +33,9 @@ public class UserFetcher {
                 while (result.next()) {
                     resultUser = new User(
                             result.getString("username"),
-                            UserRoles.valueOf(result.getString("rolename"))
+                            result.getString("password"),
+                            UserRoles.valueOf(result.getString("rolename")),
+                            result.getBoolean("isloggedin")
                     );
                 }
             }
@@ -37,27 +43,23 @@ public class UserFetcher {
             e.printStackTrace();
         }
 
-
         return resultUser;
     }
 
-    public String getPassword(String username) {
+    public void updateUser(User user){
         TicTacToeDbConnection dbConn = TicTacToeDbConnection.getInstance();
-        String password = null;
 
         try( Connection conn = dbConn.getConnection();
-             PreparedStatement prepStatement = conn.prepareStatement("select password from users where username = ?");
+             PreparedStatement prepStatement = conn.prepareStatement("update users set (password, role, isloggedin) = (?,?,?) where username = ?");
         ){
-            prepStatement.setString(1, username);
-            try (ResultSet result = prepStatement.executeQuery()){
-                result.next();
-                password = result.getString("password");
-            }
+            prepStatement.setString(1, user.getPassword());
+            prepStatement.setString(2, user.getUserRole().toString());
+            prepStatement.setBoolean(3, user.isLoggedIn());
+            prepStatement.setString(4, user.getUsername());
+            prepStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return password;
     }
 
 }

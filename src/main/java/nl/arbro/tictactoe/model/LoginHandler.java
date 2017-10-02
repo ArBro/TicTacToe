@@ -10,20 +10,22 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginHandler {
 
-    private UserFetcher fetcher;
+    private UserRepository userRepo;
 
-    public LoginHandler(UserFetcher fetcher) {
-        this.fetcher = fetcher;
+    public LoginHandler(UserRepository userRepo) {
+        this.userRepo = userRepo;
     }
 
-    public Boolean processLogin(String username, String password) {
+    public Boolean processLogin(String username, String inputPass) {
 
-        String pass = fetcher.getPassword(username);
+        if(userRepo.getUserByName(username) != null){
+            String userPass = userRepo.getUserByName(username).getPassword();
 
-        if (pass != null){
-            return BCrypt.checkpw(password, fetcher.getPassword(username));
+            if (userPass != null){
+                return BCrypt.checkpw(inputPass, userPass);
+            }
         }
-        return false;
 
+        return false;
     }
 }
