@@ -24,7 +24,7 @@
             <p class="col-sm-12" align="center">Login was Successful! Welcome ${loggedInUsername} <br/> You are logged in as ${loggedInUserRole}</p>
         </div>
         <div class="row justify-content-center">
-            <a class="col-sm-1" href="logout"><input class="btn btn-primary" type="button" value="Logout"></a>
+            <a class="col-sm-1" href="logout.html"><input class="btn btn-primary" type="button" value="Logout"></a>
         </div>
     </div>
 

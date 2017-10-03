@@ -1,20 +1,18 @@
-package nl.arbro.tictactoe.controller; /**
+package nl.arbro.tictactoe.listener; /**
  * Created By: arbro
  * Date: 28-9-17 - 12:39
  * Project: tictactoe
  **/
 
-import nl.arbro.tictactoe.model.UserRepository;
-import org.springframework.stereotype.Controller;
+import nl.arbro.tictactoe.model.UserRepositoryImpl;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-@Controller
 @WebListener
-public class TicTacToeSessionListener implements HttpSessionListener {
+public class SessionListener implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
@@ -29,7 +27,7 @@ public class TicTacToeSessionListener implements HttpSessionListener {
         if(username == null){
             return;
         } else {
-            new UserRepository().getUserByName(username).setLoggedIn(false);
+            new UserRepositoryImpl().getUserByName(username).setLoggedIn(false);
             return;
         }
 

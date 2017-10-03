@@ -1,4 +1,4 @@
-package nl.arbro.tictactoe.filters;
+package nl.arbro.tictactoe.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

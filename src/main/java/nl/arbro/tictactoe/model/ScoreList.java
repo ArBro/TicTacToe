@@ -41,7 +41,7 @@ public class ScoreList {
     public List<Score> getScores(ScoreRepository fetcher) {
         scores.clear();
 
-        for (Score score : fetcher.getAllScores() ) {
+        for (Score score : fetcher.findAll() ) {
             addScore(score);
         }
 

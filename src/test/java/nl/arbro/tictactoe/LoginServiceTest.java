@@ -1,9 +1,7 @@
 package nl.arbro.tictactoe;
 
-import nl.arbro.tictactoe.model.LoginHandler;
-import nl.arbro.tictactoe.model.User;
-import nl.arbro.tictactoe.model.UserRepository;
-import nl.arbro.tictactoe.model.UserRoles;
+import nl.arbro.tictactoe.model.*;
+import nl.arbro.tictactoe.service.LoginService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,9 +21,9 @@ import static org.mockito.Mockito.when;
  * Project: tictactoe
  **/
 
-public class LoginHandlerTest {
+public class LoginServiceTest {
 
-    private LoginHandler target = null;
+    private LoginService target = null;
     private Properties prop = null;
 
     @Before
@@ -51,12 +49,16 @@ public class LoginHandlerTest {
                 Boolean.valueOf(prop.getProperty("isLoggedIn"))
         );
 
+        LoginCredentials credentialsFixture = new LoginCredentials();
+        credentialsFixture.setUsername(prop.getProperty("username"));
+        credentialsFixture.setPassword(prop.getProperty("password"));
+
         UserRepository mockFetcher = mock(UserRepository.class);
         when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
 
-        target = new LoginHandler(mockFetcher);
+        target = new LoginService(mockFetcher);
 
-        Boolean result = target.processLogin(prop.getProperty("username"), prop.getProperty("password"));
+        Boolean result = target.processLogin(credentialsFixture);
         assertEquals(true, result);
 
     }
@@ -70,12 +72,16 @@ public class LoginHandlerTest {
                 Boolean.valueOf(prop.getProperty("isLoggedIn"))
         );
 
+        LoginCredentials credentialsFixture = new LoginCredentials();
+        credentialsFixture.setUsername(prop.getProperty("username"));
+        credentialsFixture.setPassword("wrongpass");
+
         UserRepository mockFetcher = mock(UserRepository.class);
         when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
 
-        target = new LoginHandler(mockFetcher);
+        target = new LoginService(mockFetcher);
 
-        Boolean result = target.processLogin(prop.getProperty("username"), "wrongpass");
+        Boolean result = target.processLogin(credentialsFixture);
         assertEquals(false, result);
 
     }

@@ -1,6 +1,6 @@
-package nl.arbro.tictactoe.filters;
+package nl.arbro.tictactoe.filter;
 
-import nl.arbro.tictactoe.controller.BoardGameService;
+import nl.arbro.tictactoe.model.BoardGameHandler;
 import nl.arbro.tictactoe.model.GameStatus;
 
 import javax.servlet.*;
@@ -27,7 +27,7 @@ public class GameStatusFilter implements Filter {
         HttpServletResponse httpResp = (HttpServletResponse) resp;
         HttpSession session = httpReq.getSession();
 
-        BoardGameService gameCtrl = (BoardGameService) session.getAttribute("game");
+        BoardGameHandler gameCtrl = (BoardGameHandler) session.getAttribute("game");
 
         if (gameCtrl != null){
             GameStatus gameStatus = gameCtrl.getGame().getGameStatus();

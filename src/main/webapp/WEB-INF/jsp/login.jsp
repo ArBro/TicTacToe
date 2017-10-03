@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   User: arbro
   Date: 25-9-17
@@ -24,18 +25,16 @@
             <p class="col-sm-12" align="center">Please enter your credentials</p>
 
             <div class="col-sm-4">
-                <form method="post">
+                <form:form modelAttribute="loginCredentials" >
                     <div class="form-group">
-                        <input class="form-control" type="text" name="username" placeholder="Username" /><br>
-                        <input class="form-control" type="password" name="password" placeholder="Password" /><br>
+                        <form:input class="form-control" path="username" placeholder="Username"/><br>
+                        <form:password class="form-control" path="password" placeholder="Password"/><br>
                         <input class="form-control btn btn-primary" type="submit" value="Login" /><br>
                     </div>
-
-                    <c:forEach var="message" items="${messages}">
-                        <span class="error">${message.value}</span><br/>
-                    </c:forEach>
-                </form>
+                    <form:errors path="*" cssClass="errorblock" element="div" />
+                </form:form>
             </div>
+
         </div>
     </div>
 

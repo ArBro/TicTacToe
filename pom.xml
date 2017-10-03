@@ -29,6 +29,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.2.Final</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations-java5</artifactId>
 			<version>RELEASE</version>

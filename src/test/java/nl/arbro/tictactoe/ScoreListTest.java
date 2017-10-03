@@ -37,7 +37,7 @@ public class ScoreListTest {
         exampleScores.add(new Score("TestPlayer", 9, LocalDate.now()));
 
         mockFetcher = mock(ScoreRepository.class);
-        when(mockFetcher.getAllScores()).thenReturn(exampleScores);
+        when(mockFetcher.findAll()).thenReturn(exampleScores);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ScoreListTest {
         List<Score> resultList = target.getScores(mockFetcher);
 
         //then
-        verify(mockFetcher).getAllScores();
+        verify(mockFetcher).findAll();
         assertEquals(exampleScores, resultList);
     }
 
@@ -65,7 +65,7 @@ public class ScoreListTest {
 
     @Test
     public void test_fetchScores_IsNotNull () {
-        assertNotNull(mockFetcher.getAllScores());
+        assertNotNull(mockFetcher.findAll());
     }
 
 }

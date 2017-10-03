@@ -1,6 +1,4 @@
-package nl.arbro.tictactoe.controller;
-
-import nl.arbro.tictactoe.model.*;
+package nl.arbro.tictactoe.model;
 
 import java.util.Iterator;
 
@@ -10,18 +8,19 @@ import java.util.Iterator;
  * Project: TicTacToe
  **/
 
-public class BoardGameService {
+
+public class BoardGameHandler {
 
     private final BoardGame game;
 
-    public BoardGameService(BoardGame game) {
+    public BoardGameHandler(BoardGame game) {
         this.game = game;
     }
 
     //Getters & Setters (Getters mainly used by .jsp files
     public BoardGame getGame(){return this.game;}
 
-    //BoardGameService Methods
+    //BoardGameHandler Methods
     public void initGame(String ... players) throws IllegalArgumentException {
         Iterator<? extends Token> it = game.getTokenSet().iterator();
 

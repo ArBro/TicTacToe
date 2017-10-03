@@ -1,12 +1,11 @@
 package nl.arbro.tictactoe.controller;
 
+import nl.arbro.tictactoe.model.BoardGameHandler;
 import nl.arbro.tictactoe.model.InvalidInputException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,16 +16,17 @@ import java.util.Map;
  **/
 
 @Controller
-public class TicTacToeController {
+@SessionAttributes("game")
+public class GameController {
 
     @PostMapping(value = "/game")
-    public String handleGame(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String nextMoveInput = request.getParameter("input");
-        BoardGameService gameCtrl = (BoardGameService) session.getAttribute("game");
+    public String handleGame(Model model,
+                             @ModelAttribute("game") BoardGameHandler gameCtrl,
+                             @RequestParam("input") String nextMoveInput
+    ) {
 
         Map<String, String> messages = new HashMap<>();
-        request.setAttribute("messages", messages);
+        model.addAttribute("messages", messages);
 
         try {
             gameCtrl.processMove(nextMoveInput);

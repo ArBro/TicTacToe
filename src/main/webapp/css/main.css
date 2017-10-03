@@ -11,6 +11,15 @@ a {
     color: red;
 }
 
+.errorblock {
+    color: #000;
+    border: 3px solid #ff0000;
+    border-radius: 5px;
+    background-color: #ffEEEE;
+    padding: 8px;
+}
+
+
 table.tictactoeBoard, tr.tictactoeBoard, td.tictactoeBoard {
     border: 1px solid dimgrey;
     border-collapse: collapse;

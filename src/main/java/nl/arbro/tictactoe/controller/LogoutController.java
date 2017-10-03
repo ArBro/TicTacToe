@@ -2,17 +2,16 @@ package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.User;
 import nl.arbro.tictactoe.model.UserRepository;
+import nl.arbro.tictactoe.model.UserRepositoryImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  * Created By: arbro
@@ -21,20 +20,21 @@ import java.io.IOException;
  **/
 
 @Controller
+@SessionAttributes({"loggedInUsername", "loggedInUserRole"})
 public class LogoutController {
 
-    @PostMapping(value = "logout")
-    public String processLogout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("loggedInUsername");
+    @GetMapping(value = "logout")
+    public String processLogout(ModelMap model, SessionStatus status) {
+        if(model.containsAttribute("loggedInUsername")){
+            String username = (String) model.get("loggedInUsername");
 
-        UserRepository userRepository = new UserRepository();
-        User user = userRepository.getUserByName(username);
-        user.setLoggedIn(false);
-        userRepository.updateUser(user);
+            UserRepository userRepository = new UserRepositoryImpl();
+            User user = userRepository.getUserByName(username);
+            user.setLoggedIn(false);
+            userRepository.updateUser(user);
 
-        session.removeAttribute("loggedInUsername");
-        session.removeAttribute("loggedInUserRole");
+            status.setComplete();
+        }
 
         return "logout";
     }

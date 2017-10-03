@@ -18,10 +18,9 @@
 <body>
     <%@include file="directives/_navbar.html"%>
     <div class="container">
-        <h2>${hello}</h2>
+        <div class="row justify-content-center">
+            <h2>${hello}</h2>
+        </div>
     </div>
-
-
-
 </body>
 </html>

@@ -3,6 +3,7 @@ package nl.arbro.tictactoe.controller;
 import nl.arbro.tictactoe.model.ScoreRepository;
 import nl.arbro.tictactoe.model.Score;
 import nl.arbro.tictactoe.model.ScoreList;
+import nl.arbro.tictactoe.model.ScoreRepositoryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class HighScoreController {
     @RequestMapping(value = {"/highscores"})
     public String showScores(Model model) {
 
-        final List<Score> scores = ScoreList.getInstance().getScores(new ScoreRepository(), BY_SCORE);
+        final List<Score> scores = ScoreList.getInstance().getScores(new ScoreRepositoryImpl(), BY_SCORE);
         model.addAttribute("highScores", scores);
         return "highscores";
 
