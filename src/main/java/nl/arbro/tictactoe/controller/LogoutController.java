@@ -1,17 +1,13 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.User;
-import nl.arbro.tictactoe.model.UserRepository;
-import nl.arbro.tictactoe.model.UserRepositoryImpl;
+import nl.arbro.tictactoe.repository.UserRepository;
+import nl.arbro.tictactoe.repository.UserRepositoryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created By: arbro

@@ -1,5 +1,8 @@
 package nl.arbro.tictactoe.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -8,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
  * Project: TicTacToe
  **/
 
+@Component("loginCredentials")
+@Scope("prototype")
 public class LoginCredentials {
 
     @NotEmpty

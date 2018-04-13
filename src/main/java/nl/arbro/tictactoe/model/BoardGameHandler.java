@@ -17,7 +17,6 @@ public class BoardGameHandler {
         this.game = game;
     }
 
-    //Getters & Setters (Getters mainly used by .jsp files
     public BoardGame getGame(){return this.game;}
 
     //BoardGameHandler Methods
@@ -72,7 +71,6 @@ public class BoardGameHandler {
         game.setGameStatus(GameStatus.PLAYING);
     }
 
-    //announceWinner() used by winner.jsp
     public String announceWinner() {
         if (game.getGameStatus() == GameStatus.WINNER) {
             return game.getWinner().getPlayerName() + " has won. Congratulations!";

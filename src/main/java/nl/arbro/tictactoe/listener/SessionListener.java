@@ -4,7 +4,7 @@ package nl.arbro.tictactoe.listener; /**
  * Project: tictactoe
  **/
 
-import nl.arbro.tictactoe.model.UserRepositoryImpl;
+import nl.arbro.tictactoe.repository.UserRepositoryImpl;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;

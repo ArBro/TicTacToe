@@ -1,7 +1,10 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.*;
+import nl.arbro.tictactoe.repository.UserRepository;
+import nl.arbro.tictactoe.repository.UserRepositoryImpl;
 import nl.arbro.tictactoe.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,23 +24,29 @@ import javax.validation.Valid;
 @SessionAttributes({"loggedInUsername", "loggedInUserRole"})
 public class LoginController {
 
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private LoginService loginService;
+    @Autowired
+    private LoginCredentials loginCredentials;
+
+
     @PostMapping (value = "/login")
     public String processLogin (Model model,
                                 @Valid @ModelAttribute("loginCredentials") LoginCredentials credentials,
                                 BindingResult result
     ){
-        UserRepository userRepo = new UserRepositoryImpl();
-        LoginService handler = new LoginService(userRepo);
 
         if (result.hasErrors()) {
             return "login";
         }
 
-        if (handler.processLogin(credentials)){
+        if (loginService.processLogin(credentials)){
 
-            User user = userRepo.getUserByName(credentials.getUsername());
+            User user = userRepository.getUserByName(credentials.getUsername());
             user.setLoggedIn(true);
-            userRepo.updateUser(user);
+            userRepository.updateUser(user);
 
             model.addAttribute("loggedInUsername", user.getUsername());
             model.addAttribute("loggedInUserRole", user.getUserRole());
@@ -51,7 +60,7 @@ public class LoginController {
 
     @GetMapping (value = "/login")
     public String showLoginPage(ModelMap model) {
-        model.addAttribute("loginCredentials", new LoginCredentials());
+        model.addAttribute("loginCredentials", loginCredentials);
         String loggedInUsername = (String) model.get("loggedInUsername");
         if (loggedInUsername == null) {
             return "login";

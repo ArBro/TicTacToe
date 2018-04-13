@@ -1,14 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: arbro
   Date: 14-7-17
   Time: 20:25
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
 <html>
 <head>
     <title>TicTacToe - A game full of surprises</title>
@@ -23,7 +22,21 @@
     <%@include file="directives/_navbar.html"%>
 
     <div class="container">
-        <%@include file="directives/start.jsp"%>
+        <div class="row justify-content-center">
+            <h2 class="col-sm-12" align="center">Welcome to TicTacToe</h2>
+            <p class="col-sm-12" align="center">Please enter your names</p>
+
+            <div class="col-sm-4">
+                <form:form modelAttribute="initGameForm">
+                    <div class="form-group">
+                        <form:input class="form-control" path="playername1" placeholder="Name Player 1" /><br>
+                        <form:input class="form-control" path="playername2" placeholder="Name Player 2" /><br>
+                        <input class="form-control btn btn-primary" type="submit" value="Start Game" /><br>
+                    </div>
+                    <form:errors path="*" cssClass="errorblock" element="div" />
+                </form:form>
+            </div>
+        </div>
     </div>
 
 

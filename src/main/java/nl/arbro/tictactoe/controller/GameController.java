@@ -1,9 +1,11 @@
 package nl.arbro.tictactoe.controller;
 
 import nl.arbro.tictactoe.model.BoardGameHandler;
+import nl.arbro.tictactoe.model.GameStatus;
 import nl.arbro.tictactoe.model.InvalidInputException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -44,8 +46,19 @@ public class GameController {
     }
 
     @GetMapping(value = "/game")
-    public String doGet() {
-        return "game";
+    public String doGet(ModelMap modelMap) {
+        if (modelMap.containsAttribute("game")){
+            BoardGameHandler gameCtrl = (BoardGameHandler) modelMap.get("game");
+            GameStatus gameStatus = gameCtrl.getGame().getGameStatus();
+            if (gameStatus == GameStatus.WINNER || gameStatus == GameStatus.DRAW) {
+                return "winner";
+            } else {
+                return "game";
+            }
+        } else {
+            return "redirect:tictactoe.html";
+        }
+
     }
 
 }

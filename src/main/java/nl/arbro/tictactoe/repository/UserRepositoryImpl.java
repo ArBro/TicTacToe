@@ -1,5 +1,8 @@
-package nl.arbro.tictactoe.model;
+package nl.arbro.tictactoe.repository;
 
+import nl.arbro.tictactoe.model.TicTacToeDbConnection;
+import nl.arbro.tictactoe.model.User;
+import nl.arbro.tictactoe.model.UserRoles;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -13,7 +16,7 @@ import java.sql.SQLException;
  * Project: tictactoe
  **/
 
-@Repository
+@Repository("userRepository")
 public class UserRepositoryImpl implements UserRepository {
 
     @Override

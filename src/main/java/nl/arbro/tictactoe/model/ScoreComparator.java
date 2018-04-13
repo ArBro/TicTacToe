@@ -5,6 +5,7 @@ import java.util.Comparator;
 /**
  * Created by arbro on 28-6-17.
  */
+
 public interface ScoreComparator {
 
     enum SortMethod {BY_SCORE, BY_NAME};

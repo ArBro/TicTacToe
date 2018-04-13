@@ -7,6 +7,7 @@
   Project: tictactoe
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Login</title>
@@ -16,6 +17,7 @@
     <script src="lib/js/popper.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
 </head>
+
 <body>
     <%@include file="directives/_navbar.html"%>
 
@@ -37,7 +39,6 @@
 
         </div>
     </div>
-
-
 </body>
+
 </html>

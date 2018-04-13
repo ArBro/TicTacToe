@@ -3,15 +3,16 @@ package nl.arbro.tictactoe.controller;
 import nl.arbro.tictactoe.model.BoardGameFactory;
 import nl.arbro.tictactoe.model.BoardGameHandler;
 import nl.arbro.tictactoe.model.BoardGameType;
+import nl.arbro.tictactoe.model.InitGameForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.Valid;
 
 /**
  * Created By: arbro
@@ -23,29 +24,38 @@ import java.util.Map;
 @SessionAttributes("game")
 public class InitGameController {
 
-    @PostMapping("/tictactoe")
-    public String processInitialization(Model model, @RequestParam Map<String, String> requestParams) {
-        Map<String, String> messages = new HashMap<>();
-        model.addAttribute("messages", messages);
+    private final InitGameForm initGameForm;
 
-        String playerName1 = requestParams.get("player1");
-        String playerName2 = requestParams.get("player2");
+    @Autowired
+    public InitGameController(InitGameForm initGameForm) {
+        this.initGameForm = initGameForm;
+    }
+
+    @PostMapping("/tictactoe")
+    public String processInitialization(Model model,
+                                        @Valid @ModelAttribute("initGameForm") InitGameForm initGameForm,
+                                        BindingResult result
+    ) {
+
+        if (result.hasErrors()){
+            return "tictactoe";
+        }
 
         BoardGameHandler gameCtrl = new BoardGameHandler(BoardGameFactory.getBoardGame(BoardGameType.TICTACTOE));
 
         try {
-            gameCtrl.initGame(playerName1, playerName2);
+            gameCtrl.initGame(initGameForm.getPlayername1(), initGameForm.getPlayername2());
             model.addAttribute("game", gameCtrl);
             return "redirect:game.html";
         } catch (IllegalArgumentException e) {
-            messages.put("names", "Please fill in different player names");
+            result.addError(new ObjectError("duplicateNames", "Please fill in different player names"));
             return "tictactoe";
         }
     }
 
     @GetMapping("/tictactoe")
-    public String checkForActiveGame(Model model) {
-        Map<String, Object> modelMap = model.asMap();
+    public String checkForActiveGame(Model model, ModelMap modelMap) {
+        model.addAttribute("initGameForm", initGameForm);
         if(model.containsAttribute("game")){
             BoardGameHandler gameCtrl = (BoardGameHandler) modelMap.get("game");
             gameCtrl.resetGame();

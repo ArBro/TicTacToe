@@ -1,5 +1,6 @@
-package nl.arbro.tictactoe.model;
+package nl.arbro.tictactoe.repository;
 
+import nl.arbro.tictactoe.model.User;
 import org.springframework.stereotype.Repository;
 
 /**

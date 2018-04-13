@@ -20,8 +20,6 @@ public abstract class BoardGame {
         this.createGame();
     }
 
-    //Getters & Setters used by the .jsp files mainly
-
     public Board getBoard() {
         return board;
     }

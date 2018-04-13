@@ -1,10 +1,13 @@
 package nl.arbro.tictactoe;
 
 import nl.arbro.tictactoe.model.Score;
-import nl.arbro.tictactoe.model.ScoreList;
-import nl.arbro.tictactoe.model.ScoreRepository;
+import nl.arbro.tictactoe.repository.ScoreRepository;
+import nl.arbro.tictactoe.service.ScoreServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,15 +23,20 @@ import static org.mockito.Mockito.*;
  * Project: tictactoe
  **/
 
-public class ScoreListTest {
+public class ScoreServiceImplTest {
 
     private List<Score> exampleScores;
-    private ScoreList target = null;
-    private ScoreRepository mockFetcher;
+
+    @InjectMocks
+    private ScoreServiceImpl target;
+
+    @Mock
+    private ScoreRepository scoreRepository;
+
 
     @Before
     public void setup() {
-        target = ScoreList.getInstance();
+        MockitoAnnotations.initMocks(this);
 
         exampleScores = new ArrayList<>();
         exampleScores.add(new Score("TestPlayer", 12, LocalDate.now()));
@@ -36,24 +44,23 @@ public class ScoreListTest {
         exampleScores.add(new Score("TestPlayer", 10, LocalDate.now()));
         exampleScores.add(new Score("TestPlayer", 9, LocalDate.now()));
 
-        mockFetcher = mock(ScoreRepository.class);
-        when(mockFetcher.findAll()).thenReturn(exampleScores);
+        when(scoreRepository.findAll()).thenReturn(exampleScores);
     }
 
     @Test
     public void test_getScores_Success() throws Exception {
         //given
-        List<Score> resultList = target.getScores(mockFetcher);
+        List<Score> resultList = target.getScores();
 
         //then
-        verify(mockFetcher).findAll();
+        verify(scoreRepository).findAll();
         assertEquals(exampleScores, resultList);
     }
 
     @Test
     public void test_getScores_DoesNotStackData() {
-        target.getScores(mockFetcher);
-        List<Score> resultList = target.getScores(mockFetcher);
+        target.getScores();
+        List<Score> resultList = target.getScores();
 
         assertEquals(exampleScores, resultList);
     }
@@ -65,7 +72,7 @@ public class ScoreListTest {
 
     @Test
     public void test_fetchScores_IsNotNull () {
-        assertNotNull(mockFetcher.findAll());
+        assertNotNull(scoreRepository.findAll());
     }
 
 }

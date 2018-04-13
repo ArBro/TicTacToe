@@ -1,5 +1,6 @@
-package nl.arbro.tictactoe.model;
+package nl.arbro.tictactoe.repository;
 
+import nl.arbro.tictactoe.model.Score;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

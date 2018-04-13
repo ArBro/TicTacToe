@@ -1,5 +1,7 @@
-package nl.arbro.tictactoe.model;
+package nl.arbro.tictactoe.repository;
 
+import nl.arbro.tictactoe.model.Score;
+import nl.arbro.tictactoe.model.TicTacToeDbConnection;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,7 +14,7 @@ import java.util.List;
  * Project: tictactoe
  **/
 
-@Repository
+@Repository("scoreRepository")
 public class ScoreRepositoryImpl implements ScoreRepository {
 
     @Override

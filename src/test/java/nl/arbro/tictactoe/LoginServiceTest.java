@@ -1,7 +1,9 @@
 package nl.arbro.tictactoe;
 
 import nl.arbro.tictactoe.model.*;
+import nl.arbro.tictactoe.repository.UserRepository;
 import nl.arbro.tictactoe.service.LoginService;
+import nl.arbro.tictactoe.service.LoginServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +25,9 @@ import static org.mockito.Mockito.when;
 
 public class LoginServiceTest {
 
-    private LoginService target = null;
     private Properties prop = null;
+    private UserRepository userRepository = mock(UserRepository.class);
+    private LoginService loginService = new LoginServiceImpl(userRepository);
 
     @Before
     public void setup(){
@@ -53,12 +56,9 @@ public class LoginServiceTest {
         credentialsFixture.setUsername(prop.getProperty("username"));
         credentialsFixture.setPassword(prop.getProperty("password"));
 
-        UserRepository mockFetcher = mock(UserRepository.class);
-        when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
+        when(userRepository.getUserByName(anyString())).thenReturn(userFixture);
 
-        target = new LoginService(mockFetcher);
-
-        Boolean result = target.processLogin(credentialsFixture);
+        Boolean result = loginService.processLogin(credentialsFixture);
         assertEquals(true, result);
 
     }
@@ -76,12 +76,10 @@ public class LoginServiceTest {
         credentialsFixture.setUsername(prop.getProperty("username"));
         credentialsFixture.setPassword("wrongpass");
 
-        UserRepository mockFetcher = mock(UserRepository.class);
-        when(mockFetcher.getUserByName(anyString())).thenReturn(userFixture);
+        when(userRepository.getUserByName(anyString())).thenReturn(userFixture);
 
-        target = new LoginService(mockFetcher);
 
-        Boolean result = target.processLogin(credentialsFixture);
+        Boolean result = loginService.processLogin(credentialsFixture);
         assertEquals(false, result);
 
     }
