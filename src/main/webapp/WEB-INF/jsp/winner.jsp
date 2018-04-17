@@ -26,7 +26,7 @@
                 <h4>${game.announceWinner()}</h4>
             </div>
             <div class="col-sm-12" align="center">
-                <%@include file="directives/staticboard.jsp"%>
+                <%@include file="directives/_staticboard.jsp"%>
                 <br>
             </div>
             <div class="col-sm-12" align="center">

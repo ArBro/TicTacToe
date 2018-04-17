@@ -11,6 +11,7 @@ public class BoardGameFactory {
     public static BoardGame getBoardGame(BoardGameType boardGameType){
         switch (boardGameType){
             case TICTACTOE: {return new TicTacToeGame();}
+            case CONNECT_FOUR: {return new ConnectFourGame();}
             default: return null;
         }
     }

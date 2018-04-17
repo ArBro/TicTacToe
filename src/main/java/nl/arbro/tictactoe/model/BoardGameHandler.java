@@ -46,13 +46,14 @@ public class BoardGameHandler {
 
     public void updateGameStatus(){
         Player curPlayer = game.getPlayers().getCurrentPlayer();
-        if (game.hasWinner(game.getBoard())) {
+
+        WinCalculator winCalc = new BoardGameWinCalculator();
+
+        if (winCalc.hasWinner(game.getBoard(), game.getWinPattern())) {
             game.setWinner(curPlayer);
             game.setGameStatus(GameStatus.WINNER);
         } else if (!game.getBoard().hasEmptyFields()) {
             game.setGameStatus(GameStatus.DRAW);
-        } else {
-            //do Nothing
         }
 
     }

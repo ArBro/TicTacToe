@@ -21,6 +21,8 @@ public class InitGameForm {
     @NotEmpty
     private String playername2;
 
+    private BoardGameType gameType = BoardGameType.TICTACTOE;
+
     public String getPlayername1() {
         return playername1;
     }
@@ -37,4 +39,11 @@ public class InitGameForm {
         this.playername2 = playername2;
     }
 
+    public BoardGameType getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(BoardGameType gameType) {
+        this.gameType = gameType;
+    }
 }

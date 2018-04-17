@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>TicTacToe - A game full of surprises</title>
+    <title>Play TicTacToe or CheckFour</title>
     <link href="css/main.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.css" rel="stylesheet" type = "text/css">
     <script src="lib/js/jquery-3.2.1.min.js"></script>
@@ -28,9 +28,18 @@
 
             <div class="col-sm-4">
                 <form:form modelAttribute="initGameForm">
-                    <div class="form-group">
+                    <div class="form-group" id="playernames">
                         <form:input class="form-control" path="playername1" placeholder="Name Player 1" /><br>
-                        <form:input class="form-control" path="playername2" placeholder="Name Player 2" /><br>
+                        <form:input class="form-control" path="playername2" placeholder="Name Player 2" />
+                    </div>
+                    <div class="form-group row" id="gametype">
+                        <div class="col-sm-12"><b>Select game type:</b></div>
+                        <div class="col-sm-1 form-inline"><form:radiobutton path="gameType" value="TICTACTOE"/></div>
+                        <div class="col-sm-11">TicTacToe</div>
+                        <div class="col-sm-1 form-inline"><form:radiobutton class="disabled" path="gameType" value="CONNECT_FOUR"/></div>
+                        <div class="col-sm-11">Connect Four</div>
+                    </div>
+                    <div class="form-group" id="buttons">
                         <input class="form-control btn btn-primary" type="submit" value="Start Game" /><br>
                     </div>
                     <form:errors path="*" cssClass="errorblock" element="div" />

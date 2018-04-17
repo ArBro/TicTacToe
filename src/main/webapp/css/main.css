@@ -19,7 +19,6 @@ a {
     padding: 8px;
 }
 
-
 table.tictactoeBoard, tr.tictactoeBoard, td.tictactoeBoard {
     border: 1px solid dimgrey;
     border-collapse: collapse;

@@ -21,6 +21,7 @@ public class TicTacToeGameTest {
 
     private BoardGameMove mockMove = mock(BoardGameMove.class);
     private BoardGame game;
+    private WinCalculator winCalc = new BoardGameWinCalculator();
 
     @Before
     public void initTicTacToeGame(){
@@ -44,7 +45,7 @@ public class TicTacToeGameTest {
         Board mockBoard = mock(Board.class);
         when(mockBoard.getBoard()).thenReturn(exampleBoard);
 
-        assertEquals(true,  game.hasWinner(mockBoard));
+        assertEquals(true, winCalc.hasWinner(mockBoard, game.getWinPattern()));
     }
 
     @Test
@@ -54,7 +55,7 @@ public class TicTacToeGameTest {
         Board mockBoard = mock(Board.class);
         when(mockBoard.getBoard()).thenReturn(exampleBoard);
 
-        assertEquals(true,  game.hasWinner(mockBoard));
+        assertEquals(true, winCalc.hasWinner(mockBoard, game.getWinPattern()));
     }
 
     @Test
@@ -63,7 +64,16 @@ public class TicTacToeGameTest {
         Board mockBoard = mock(Board.class);
         when(mockBoard.getBoard()).thenReturn(exampleBoard);
 
-        assertEquals(true,  game.hasWinner(mockBoard));
+        assertEquals(true, winCalc.hasWinner(mockBoard, game.getWinPattern()));
+    }
+
+    @Test
+    public void test_hasWinner_WinnerDiagonal2(){
+        String[][] exampleBoard = {{"X", "X", "O"},{"","O",""},{"O","",""}};
+        Board mockBoard = mock(Board.class);
+        when(mockBoard.getBoard()).thenReturn(exampleBoard);
+
+        assertEquals(true, winCalc.hasWinner(mockBoard, game.getWinPattern()));
     }
 
     @Test
@@ -72,7 +82,7 @@ public class TicTacToeGameTest {
         Board mockBoard = mock(Board.class);
         when(mockBoard.getBoard()).thenReturn(exampleBoard);
 
-        assertEquals(false,  game.hasWinner(mockBoard));
+        assertEquals(false, winCalc.hasWinner(mockBoard, game.getWinPattern()));
     }
 
     @Test

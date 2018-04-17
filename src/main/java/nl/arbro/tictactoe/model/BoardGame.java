@@ -1,6 +1,7 @@
 package nl.arbro.tictactoe.model;
 
 import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 /**
  * Created By: arbro
@@ -15,6 +16,7 @@ public abstract class BoardGame {
     private GameStatus gameStatus;
     private Player winner;
     private EnumSet<? extends Token> tokenSet;
+    private Pattern winPattern;
 
     protected BoardGame() {
         this.createGame();
@@ -33,6 +35,7 @@ public abstract class BoardGame {
     public EnumSet<? extends Token> getTokenSet() {
         return tokenSet;
     }
+    public Pattern getWinPattern() {return winPattern;}
 
     protected void setBoard(Board board) {
         this.board = board;
@@ -49,9 +52,10 @@ public abstract class BoardGame {
     public void setTokenSet(EnumSet<? extends Token> tokenSet) {
         this.tokenSet = tokenSet;
     }
+    public void setWinPattern(Pattern winPattern){this.winPattern = winPattern;}
 
-    //Methods
+    //Abstract Methods
     public abstract void createGame();
     public abstract BoardGameMoveCommand createMoveCommand(BoardGameMove move);
-    public abstract boolean hasWinner(Board board);
+
 }

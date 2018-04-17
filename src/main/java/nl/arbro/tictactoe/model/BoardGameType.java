@@ -7,5 +7,6 @@ package nl.arbro.tictactoe.model;
  **/
 
 public enum BoardGameType {
-    TICTACTOE
+    TICTACTOE,
+    CONNECT_FOUR
 }

@@ -1,22 +1,22 @@
 package nl.arbro.tictactoe.model;
 
 import java.util.EnumSet;
-import java.util.regex.Pattern;
 
 /**
  * Created By: arbro
- * Date: 23-8-17 - 11:27
+ * Date: 13-4-18 - 13:39
  * Project: tictactoe
  **/
 
-public class TicTacToeGame extends BoardGame {
+public class ConnectFourGame extends BoardGame {
+
 
     @Override
     public void createGame() {
-        setBoard(BoardFactory.getBoard(BoardGameType.TICTACTOE));
+        setBoard(BoardFactory.getBoard(BoardGameType.CONNECT_FOUR));
         setPlayers(new PlayerSet());
         setGameStatus(GameStatus.NOT_STARTED);
-        setWinPattern(WinPatternFactory.getPattern(BoardGameType.TICTACTOE));
+        setWinPattern(WinPatternFactory.getPattern(BoardGameType.CONNECT_FOUR));
 
         EnumSet<? extends Token> tokens = EnumSet.allOf(TicTacToeToken.class);
         setTokenSet(tokens);
@@ -24,7 +24,7 @@ public class TicTacToeGame extends BoardGame {
 
     @Override
     public BoardGameMoveCommand createMoveCommand(BoardGameMove move) {
-        TicTacToeMoveCommand moveCommand = new TicTacToeMoveCommand(move, this.getBoard());
+        ConnectFourMoveCommand moveCommand = new ConnectFourMoveCommand(move, this.getBoard());
         return moveCommand;
     }
 

@@ -18,7 +18,7 @@
                 <h4>${game.getGame().getPlayers().getCurrentPlayer().getPlayerName()} it is your turn!</h4>
             </div>
             <div class="col-sm-12" align="center">
-                <%@include file="directives/interactiveboard.jsp"%>
+                <%@include file="directives/_interactiveboard.jsp"%>
             </div>
             <c:forEach var="message" items="${messages}">
                 <span class="error">${message.value}</span><br/>

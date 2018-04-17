@@ -16,7 +16,7 @@ abstract public class Board {
     protected Board(int boardLength, int boardHeight){
         this.boardLength = boardLength;
         this.boardHeight = boardHeight;
-        this.board = new String[this.boardLength][this.boardHeight];
+        this.board = new String[this.boardHeight][this.boardLength];
         this.resetBoard();
     }
 
@@ -28,6 +28,10 @@ abstract public class Board {
     protected int getBoardLength() {
         return boardLength;
     }
+
+//    public int getBoardHeight() {
+//        return boardHeight;
+//    }
 
     public boolean hasEmptyFields() {
         return hasEmptyFields;
@@ -47,8 +51,6 @@ abstract public class Board {
     }
 
     //Methods
-
-
     public void resetBoard(){
         for (String[] row : board){
             for (int i = 0; i < row.length; i++) {

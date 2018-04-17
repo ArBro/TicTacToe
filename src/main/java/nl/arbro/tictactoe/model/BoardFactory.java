@@ -12,6 +12,9 @@ public class BoardFactory {
             case TICTACTOE: {
                 return new TicTacToeBoard();
             }
+            case CONNECT_FOUR: {
+                return new ConnectFourBoard();
+            }
             default: return null;
         }
     }

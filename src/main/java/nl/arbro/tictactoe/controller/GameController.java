@@ -32,8 +32,8 @@ public class GameController {
 
         try {
             gameCtrl.processMove(nextMoveInput);
-        } catch (NumberFormatException e) {
-            messages.put("invalidInt", "Your input is not a valid integer");
+//        } catch (NumberFormatException e) {
+//            messages.put("invalidInt", "Your input is not a valid integer");
         } catch (InvalidInputException e) {
             messages.put("invalidInput", e.getMessage());
         } finally {

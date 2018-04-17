@@ -41,7 +41,8 @@ public class InitGameController {
             return "tictactoe";
         }
 
-        BoardGameHandler gameCtrl = new BoardGameHandler(BoardGameFactory.getBoardGame(BoardGameType.TICTACTOE));
+        BoardGameType gameType = initGameForm.getGameType();
+        BoardGameHandler gameCtrl = new BoardGameHandler(BoardGameFactory.getBoardGame(gameType));
 
         try {
             gameCtrl.initGame(initGameForm.getPlayername1(), initGameForm.getPlayername2());
