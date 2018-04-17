@@ -1,6 +1,5 @@
 package nl.arbro.tictactoe.model;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -28,7 +27,7 @@ public class BoardGameWinCalculator implements WinCalculator {
                     c.append(board[i][j]);
                 }
             }
-            //System.out.println(c.toString() + " " + winPattern.matcher(c.toString()).matches());
+
             if(winPattern.matcher(c.toString()).matches()){
                 return true;
             }
@@ -44,7 +43,7 @@ public class BoardGameWinCalculator implements WinCalculator {
                     c.append(board[i][j]);
                 }
             }
-            //System.out.println(c.toString() + " " + winPattern.matcher(c.toString()).matches());
+
             if(winPattern.matcher(c.toString()).matches()) {
                 return true;
             }
@@ -92,7 +91,7 @@ public class BoardGameWinCalculator implements WinCalculator {
                 c.append(curFieldValue);
             }
         }
-        System.out.println(c.toString() + " " + winPattern.matcher(c.toString()).matches());
+
         return winPattern.matcher(c.toString()).matches();
     }
 
@@ -106,7 +105,7 @@ public class BoardGameWinCalculator implements WinCalculator {
                 c.append(curFieldValue);
             }
         }
-        System.out.println(c.toString() + " " + winPattern.matcher(c.toString()).matches());
+
         return winPattern.matcher(c.toString()).matches();
     }
 
